@@ -2,7 +2,10 @@
   CLOSED: [2018-04-06 ven. 14:32]
 * TODO Faire un README.md de duff
 * TODO Faire une release de duff
-* TODO Implémenter un fuzzer pour duff
+* DONE Implémenter un fuzzer pour duff
+  CLOSED: [2018-04-06 ven. 15:56]
+
+Le fuzzer est lancer sur 163.172.129.132.
 
 * DONE faire le README.md de radis
   CLOSED: [2018-04-06 ven. 14:28]
