@@ -1,0 +1,34 @@
+* DONE extraire rabin d'ocaml-git et en faire une librairie (duff)
+  CLOSED: [2018-04-06 ven. 14:32]
+* TODO Faire un README.md de duff
+* TODO Faire une release de duff
+* TODO Implémenter un fuzzer pour duff
+
+* DONE faire le README.md de radis
+  CLOSED: [2018-04-06 ven. 14:28]
+** Corriger les fautes en anglais
+* TODO Faire une release de radis
+* DONE Implémenter la fonction ~remove~
+  CLOSED: [2018-04-06 ven. 15:06]
+
+Son implémentation est faite avec un trick sur les exceptions. Bon, il faut
+savoir que Radis n'a pas été fait pour enlever des éléments. La solution est
+donc de lever une exception ~Empty~ quand on trouve `L (k, v) when k = key` et
+sur les noeuds, on rattrape cet exception pour affiner l'arbre:
+- B (l, r, _, _) -> l ou r (en fonction de la direction)
+- T (m, k, v) -> -> L (k, v)
+
+C'est pas propre mais bon, il y a le ~remove~.
+
+* TODO extraire RFC1951 de decompress
+* TODO fixer Decompress.Inflate avec un random input
+
+* TODO Optimiser ocaml-git
+* TODO Trouver pourquoi on avait pas trouver le bug par rapport aux \000 dans les noms dans les trees
+
+* TODO Regarder mirage-lambda et y participer
+
+* Passer Mr. MIME à Angstrom
+* Gérer l'/encoding/ des e-mails (normaliser un /encoding/ vers de l'UTF-8) 
+
+* TODO Ce forcer à utiliser org-mode (2 mois de tests)
