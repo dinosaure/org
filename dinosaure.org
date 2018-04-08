@@ -54,7 +54,33 @@ Une relecture de decompress m'amène à faire:
 * TODO Regarder mirage-lambda et y participer
 
 * Passer Mr. MIME à Angstrom
+
+J'ai eu une idée de GADT.
+
+#+BEGIN_SRC ocaml
+type 'a field
+  | Content_type : content_type field
+  | Msg_id : msg_id field
+
+type res =
+  [ `Await of decoder
+  | `Header of ('v field, 'v)
+  | `End ]
+#+END_SRC
+
+En gros, le décodeur va s'arrêter à chaque /fields/ de l'e-mail et donner sa
+valeur. Ce sera super bien typé grâce au GADT ~field~. Il suffira d'une fonction
+~continue~ pour passer au ~field~ suivant ou au ~body~. Cependant, la question
+du ~body~ (entre ~multipart/alternate~ ou simple ~multipart~) ce pose toujours.
+
 * Gérer l'/encoding/ des e-mails (normaliser un /encoding/ vers de l'UTF-8) 
+
+Camomile fait déjà le /mapping/ entre les /encodings/ et l'unicode. Cependant,
+en regardant le code, c'est à la fois complexe, redondant et certainements
+inutiles. Un simple exemple, la structure permettant de mapper un code d'un
+encoding vers un autre est implémenter dans Tbl31: le code est juste immonde -
+un patricia tree suffirait largement (bien entendu, il faudrait faire des
+benchmarks mais on y gagnerais en lisibilité).
 
 * TODO Ce forcer à utiliser org-mode (2 mois de tests)
 
@@ -62,3 +88,8 @@ Une relecture de decompress m'amène à faire:
 
 Ce qui est compliqué, c'est que les ressources pour utiliser udns sont
 inexistante et il faut pousser hannes pour faire un tutoriel.
+
+* Implémenter Lwt_sequence avec CFML ou Why3 pour ocaml-tcpip
+
+Lwt_sequence va devenir obsolète, cela peut donc être une bonne opportunité de
+passer à du code prouvé
