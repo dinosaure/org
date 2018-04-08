@@ -44,6 +44,9 @@ Une relecture de decompress m'amène à faire:
   qu'ils faisaient mais l'ordre était toujours bon. Genre:
   - `get (fun src dst t -> loop src dst t)` // partial application
   - `get (fun v src dst t -> loop v src dst t)`
+- Je viens de me rendre compte la ~window~ peut être accessible à partir de ~t~
+  au lieu de le passer aux fonctions. Cela peut être une optimisation car, dans
+  certains cas, on n'alloue pas des closures.
 
 * TODO fixer Decompress.Inflate avec un random input
 
@@ -83,6 +86,9 @@ inutiles. Un simple exemple, la structure permettant de mapper un code d'un
 encoding vers un autre est implémenter dans ~Tbl31~: le code est juste immonde -
 un patricia tree suffirait largement (bien entendu, il faudrait faire des
 benchmarks mais on y gagnerais en lisibilité).
+
+Bon selon dbuenzli, Camomile supporterait que unicode 3 et dépends de fichiers
+externes. Deux erreurs qu'il ne faudrait pas reproduire.
 
 * TODO Ce forcer à utiliser org-mode (2 mois de tests)
 
