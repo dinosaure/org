@@ -1,3 +1,5 @@
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://gongzhitaao.org/orgcss/org.css" />
+
 * DONE extraire rabin d'ocaml-git et en faire une librairie (duff)
   CLOSED: [2018-04-06 ven. 14:32]
 * TODO Faire un README.md de duff
@@ -78,7 +80,7 @@ du ~body~ (entre ~multipart/alternate~ ou simple ~multipart~) ce pose toujours.
 Camomile fait déjà le /mapping/ entre les /encodings/ et l'unicode. Cependant,
 en regardant le code, c'est à la fois complexe, redondant et certainements
 inutiles. Un simple exemple, la structure permettant de mapper un code d'un
-encoding vers un autre est implémenter dans Tbl31: le code est juste immonde -
+encoding vers un autre est implémenter dans ~Tbl31~: le code est juste immonde -
 un patricia tree suffirait largement (bien entendu, il faudrait faire des
 benchmarks mais on y gagnerais en lisibilité).
 
