@@ -48,6 +48,9 @@ C'est pas propre mais bon, il y a le `remove`.
 TODO extraire RFC1951 de decompress
 ===================================
 
+\[ \] contraindre decompress d'utiliser `camlzip.1.07`
+------------------------------------------------------
+
 Une relecture de decompress m'amène à faire:
 
 -   une factorisation du code comme j'ai fait dans le PACK décodeur. En
@@ -71,6 +74,10 @@ Une relecture de decompress m'amène à faire:
 -   Je viens de me rendre compte la `window` peut être accessible à
     partir de `t` au lieu de le passer aux fonctions. Cela peut être une
     optimisation car, dans certains cas, on n'alloue pas des closures.
+
+La PR est disponible
+[ici](https://github.com/mirage/decompress/pull/41). Le diff est pas
+trop lisible cependant.
 
 TODO fixer Decompress.Inflate avec un random input
 ==================================================
