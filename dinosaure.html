@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2018-04-09 lun. 16:15 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Calascibetta" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="http://gongzhitaao.org/orgcss/org.css" />
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2018 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgde9d46a">1. <span class="done DONE">DONE</span> extraire rabin d'ocaml-git et en faire une librairie (duff)</a></li>
+<li><a href="#org4cd7f0b">2. <span class="todo TODO">TODO</span> Faire un README.md de duff</a></li>
+<li><a href="#org5470e57">3. <span class="todo TODO">TODO</span> Faire une release de duff</a></li>
+<li><a href="#orgd4f5004">4. <span class="done DONE">DONE</span> Implémenter un fuzzer pour duff</a></li>
+<li><a href="#orge4eec14">5. <span class="done DONE">DONE</span> faire le README.md de radis</a>
+<ul>
+<li><a href="#orgc46a977">5.1. Corriger les fautes en anglais</a></li>
+</ul>
+</li>
+<li><a href="#orgddf4620">6. <span class="todo TODO">TODO</span> Faire une release de radis</a></li>
+<li><a href="#org6700f1c">7. <span class="done DONE">DONE</span> Implémenter la fonction <code>remove</code></a></li>
+<li><a href="#orgcc38b81">8. <span class="todo TODO">TODO</span> extraire RFC1951 de decompress</a></li>
+<li><a href="#orga120efb">9. <span class="todo TODO">TODO</span> fixer Decompress.Inflate avec un random input</a></li>
+<li><a href="#org0428500">10. Fuzzer encore</a>
+<ul>
+<li><a href="#orgb499575">10.1. Il faut attendre la PR de Gabriel pour faire ce travail.</a></li>
+</ul>
+</li>
+<li><a href="#org06e364c">11. <span class="todo TODO">TODO</span> Optimiser ocaml-git</a></li>
+<li><a href="#orgeeea8b7">12. <span class="todo TODO">TODO</span> Trouver pourquoi on avait pas trouver le bug par rapport aux \000 dans les noms dans les trees</a></li>
+<li><a href="#org64e383c">13. <span class="todo TODO">TODO</span> Faire le serveur</a>
+<ul>
+<li><a href="#orgcfeb23b">13.1. [ ] Fuzzer l'encoder et le décoder Smart</a></li>
+<li><a href="#orgff37340">13.2. [ ] Faire le moteur de négociation</a></li>
+<li><a href="#org114ed21">13.3. [ ] Faire une abstraction du serveur (TCP pour l'instant)</a></li>
+</ul>
+</li>
+<li><a href="#org834b334">14. <span class="todo TODO">TODO</span> Regarder mirage-lambda et y participer</a></li>
+<li><a href="#org30f06d1">15. Passer Mr. MIME à Angstrom</a></li>
+<li><a href="#org21b0aae">16. Gérer l'<i>encoding</i> des e-mails (normaliser un <i>encoding</i> vers de l'UTF-8)</a></li>
+<li><a href="#org7864b0b">17. <span class="todo TODO">TODO</span> Ce forcer à utiliser org-mode (2 mois de tests)</a></li>
+<li><a href="#orgd0ca75a">18. <span class="todo TODO">TODO</span> Avoir deux serveur uDNS (un sur intel et un sur arm) et configurer son PC sur ces serveur</a></li>
+<li><a href="#org527e4a9">19. Implémenter Lwt<sub>sequence</sub> avec CFML ou Why3 pour ocaml-tcpip</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgde9d46a" class="outline-2">
+<h2 id="orgde9d46a"><span class="section-number-2">1</span> <span class="done DONE">DONE</span> extraire rabin d'ocaml-git et en faire une librairie (duff)</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+</div>
+<div id="outline-container-org4cd7f0b" class="outline-2">
+<h2 id="org4cd7f0b"><span class="section-number-2">2</span> <span class="todo TODO">TODO</span> Faire un README.md de duff</h2>
+</div>
+<div id="outline-container-org5470e57" class="outline-2">
+<h2 id="org5470e57"><span class="section-number-2">3</span> <span class="todo TODO">TODO</span> Faire une release de duff</h2>
+</div>
+<div id="outline-container-orgd4f5004" class="outline-2">
+<h2 id="orgd4f5004"><span class="section-number-2">4</span> <span class="done DONE">DONE</span> Implémenter un fuzzer pour duff</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Le fuzzer est lancer sur 163.172.129.132.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge4eec14" class="outline-2">
+<h2 id="orge4eec14"><span class="section-number-2">5</span> <span class="done DONE">DONE</span> faire le README.md de radis</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+<div id="outline-container-orgc46a977" class="outline-3">
+<h3 id="orgc46a977"><span class="section-number-3">5.1</span> Corriger les fautes en anglais</h3>
+</div>
+</div>
+<div id="outline-container-orgddf4620" class="outline-2">
+<h2 id="orgddf4620"><span class="section-number-2">6</span> <span class="todo TODO">TODO</span> Faire une release de radis</h2>
+</div>
+<div id="outline-container-org6700f1c" class="outline-2">
+<h2 id="org6700f1c"><span class="section-number-2">7</span> <span class="done DONE">DONE</span> Implémenter la fonction <code>remove</code></h2>
+<div class="outline-text-2" id="text-7">
+<p>
+Son implémentation est faite avec un trick sur les exceptions. Bon, il faut
+savoir que Radis n'a pas été fait pour enlever des éléments. La solution est
+donc de lever une exception <code>Empty</code> quand on trouve `L (k, v) when k = key` et
+sur les noeuds, on rattrape cet exception pour affiner l'arbre:
+</p>
+<ul class="org-ul">
+<li>B (l, r, _, _) -&gt; l ou r (en fonction de la direction)</li>
+<li>T (m, k, v) -&gt; -&gt; L (k, v)</li>
+</ul>
+
+<p>
+C'est pas propre mais bon, il y a le <code>remove</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgcc38b81" class="outline-2">
+<h2 id="orgcc38b81"><span class="section-number-2">8</span> <span class="todo TODO">TODO</span> extraire RFC1951 de decompress</h2>
+<div class="outline-text-2" id="text-8">
+<p>
+Une relecture de decompress m'amène à faire:
+</p>
+<ul class="org-ul">
+<li>une factorisation du code comme j'ai fait dans le PACK décodeur. En effet,
+<code>get_bits</code>, <code>get_byte</code>, etc. sont implémentés plusieurs fois dans le code. Il
+s'agit de rajouter un argument <code>ctor</code> pour savoir sur quelle ADT utiliser.</li>
+<li>Dans <code>Dictionary.inflate.get</code>, on vérifie <code>t.bits</code> pour ensuite exécuter
+<code>peek_bits</code> qui fait la même vérification. C'est une duplication des
+vérifications que je viens de supprimer (l'impact sur les performances devrait
+être marginal cependant).</li>
+<li><p>
+<code>Dictionary.inflate</code> pose un gros problème. En effet, lorsqu'il s'agit de
+répéter l'opération <code>loop</code> après avoir lu quelques bits avec <code>get</code>, la valeur
+n'est pas repris correctement par le <code>k</code> avec ses arguments. C'est hyper
+bizarre.
+</p>
+
+<p>
+Bon en réalité c'était des noms de variables qui correspondaient pas à ce
+qu'ils faisaient mais l'ordre était toujours bon. Genre:
+</p>
+<ul class="org-ul">
+<li>`get (fun src dst t -&gt; loop src dst t)` // partial application</li>
+<li>`get (fun v src dst t -&gt; loop v src dst t)`</li>
+</ul></li>
+<li>Je viens de me rendre compte la <code>window</code> peut être accessible à partir de <code>t</code>
+au lieu de le passer aux fonctions. Cela peut être une optimisation car, dans
+certains cas, on n'alloue pas des closures.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orga120efb" class="outline-2">
+<h2 id="orga120efb"><span class="section-number-2">9</span> <span class="todo TODO">TODO</span> fixer Decompress.Inflate avec un random input</h2>
+</div>
+
+<div id="outline-container-org0428500" class="outline-2">
+<h2 id="org0428500"><span class="section-number-2">10</span> Fuzzer encore</h2>
+<div class="outline-text-2" id="text-10">
+</div>
+<div id="outline-container-orgb499575" class="outline-3">
+<h3 id="orgb499575"><span class="section-number-3">10.1</span> Il faut attendre la <a href="https://github.com/stedolan/crowbar/pull/36">PR de Gabriel</a> pour faire ce travail.</h3>
+</div>
+</div>
+
+<div id="outline-container-org06e364c" class="outline-2">
+<h2 id="org06e364c"><span class="section-number-2">11</span> <span class="todo TODO">TODO</span> Optimiser ocaml-git</h2>
+</div>
+<div id="outline-container-orgeeea8b7" class="outline-2">
+<h2 id="orgeeea8b7"><span class="section-number-2">12</span> <span class="todo TODO">TODO</span> Trouver pourquoi on avait pas trouver le bug par rapport aux \000 dans les noms dans les trees</h2>
+</div>
+<div id="outline-container-org64e383c" class="outline-2">
+<h2 id="org64e383c"><span class="section-number-2">13</span> <span class="todo TODO">TODO</span> Faire le serveur</h2>
+<div class="outline-text-2" id="text-13">
+</div>
+<div id="outline-container-orgcfeb23b" class="outline-3">
+<h3 id="orgcfeb23b"><span class="section-number-3">13.1</span> [ ] Fuzzer l'encoder et le décoder Smart</h3>
+</div>
+<div id="outline-container-orgff37340" class="outline-3">
+<h3 id="orgff37340"><span class="section-number-3">13.2</span> [ ] Faire le moteur de négociation</h3>
+</div>
+<div id="outline-container-org114ed21" class="outline-3">
+<h3 id="org114ed21"><span class="section-number-3">13.3</span> [ ] Faire une abstraction du serveur (TCP pour l'instant)</h3>
+</div>
+</div>
+
+<div id="outline-container-org834b334" class="outline-2">
+<h2 id="org834b334"><span class="section-number-2">14</span> <span class="todo TODO">TODO</span> Regarder mirage-lambda et y participer</h2>
+</div>
+
+<div id="outline-container-org30f06d1" class="outline-2">
+<h2 id="org30f06d1"><span class="section-number-2">15</span> Passer Mr. MIME à Angstrom</h2>
+<div class="outline-text-2" id="text-15">
+<p>
+J'ai eu une idée de GADT.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ocaml"><span class="org-tuareg-font-lock-governing">type</span> <span class="org-type">'a field</span>
+  <span class="org-tuareg-font-lock-operator">|</span> <span class="org-tuareg-font-lock-constructor">Content_type</span> <span class="org-tuareg-font-lock-operator">:</span> content_type field
+  <span class="org-tuareg-font-lock-operator">|</span> <span class="org-tuareg-font-lock-constructor">Msg_id</span> <span class="org-tuareg-font-lock-operator">:</span> msg_id field
+
+<span class="org-tuareg-font-lock-governing">type</span> <span class="org-type">res</span> <span class="org-tuareg-font-lock-operator">=</span>
+  <span class="org-tuareg-font-lock-operator"><span class="org-rainbow-delimiters-depth-1">[</span></span> <span class="org-tuareg-font-lock-constructor">`Await</span> <span class="org-keyword">of</span> decoder
+  <span class="org-tuareg-font-lock-operator">|</span> <span class="org-tuareg-font-lock-constructor">`Header</span> <span class="org-keyword">of</span> <span class="org-tuareg-font-lock-operator"><span class="org-rainbow-delimiters-depth-2">(</span></span>'v field<span class="org-tuareg-font-lock-operator">,</span> 'v<span class="org-tuareg-font-lock-operator"><span class="org-rainbow-delimiters-depth-2">)</span></span>
+  <span class="org-tuareg-font-lock-operator">|</span> <span class="org-tuareg-font-lock-constructor">`End</span> <span class="org-tuareg-font-lock-operator"><span class="org-rainbow-delimiters-depth-1">]</span></span>
+</pre>
+</div>
+
+<p>
+En gros, le décodeur va s'arrêter à chaque <i>fields</i> de l'e-mail et donner sa
+valeur. Ce sera super bien typé grâce au GADT <code>field</code>. Il suffira d'une fonction
+<code>continue</code> pour passer au <code>field</code> suivant ou au <code>body</code>. Cependant, la question
+du <code>body</code> (entre <code>multipart/alternate</code> ou simple <code>multipart</code>) ce pose toujours.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org21b0aae" class="outline-2">
+<h2 id="org21b0aae"><span class="section-number-2">16</span> Gérer l'<i>encoding</i> des e-mails (normaliser un <i>encoding</i> vers de l'UTF-8)</h2>
+<div class="outline-text-2" id="text-16">
+<p>
+Camomile fait déjà le <i>mapping</i> entre les <i>encodings</i> et l'unicode. Cependant,
+en regardant le code, c'est à la fois complexe, redondant et certainements
+inutiles. Un simple exemple, la structure permettant de mapper un code d'un
+encoding vers un autre est implémenter dans <code>Tbl31</code>: le code est juste immonde -
+un patricia tree suffirait largement (bien entendu, il faudrait faire des
+benchmarks mais on y gagnerais en lisibilité).
+</p>
+
+<p>
+Bon selon dbuenzli, Camomile supporterait que unicode 3 et dépends de fichiers
+externes. Deux erreurs qu'il ne faudrait pas reproduire.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7864b0b" class="outline-2">
+<h2 id="org7864b0b"><span class="section-number-2">17</span> <span class="todo TODO">TODO</span> Ce forcer à utiliser org-mode (2 mois de tests)</h2>
+</div>
+
+<div id="outline-container-orgd0ca75a" class="outline-2">
+<h2 id="orgd0ca75a"><span class="section-number-2">18</span> <span class="todo TODO">TODO</span> Avoir deux serveur uDNS (un sur intel et un sur arm) et configurer son PC sur ces serveur</h2>
+<div class="outline-text-2" id="text-18">
+<p>
+Ce qui est compliqué, c'est que les ressources pour utiliser udns sont
+inexistante et il faut pousser hannes pour faire un tutoriel.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org527e4a9" class="outline-2">
+<h2 id="org527e4a9"><span class="section-number-2">19</span> Implémenter Lwt<sub>sequence</sub> avec CFML ou Why3 pour ocaml-tcpip</h2>
+<div class="outline-text-2" id="text-19">
+<p>
+Lwt<sub>sequence</sub> va devenir obsolète, cela peut donc être une bonne opportunité de
+passer à du code prouvé
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Calascibetta</p>
+<p class="date">Created: 2018-04-09 lun. 16:15</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
