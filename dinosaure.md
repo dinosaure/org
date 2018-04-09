@@ -3,8 +3,10 @@ DONE extraire rabin d'ocaml-git et en faire une librairie (duff)
 
 CLOSED: \[2018-04-06 ven. 14:32\]
 
-TODO Faire un README.md de duff
+DONE Faire un README.md de duff
 ===============================
+
+CLOSED: \[2018-04-09 lun. 16:52\]
 
 TODO Faire une release de duff
 ==============================
