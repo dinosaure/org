@@ -63,6 +63,49 @@ La PR est disponible [[https://github.com/mirage/decompress/pull/41][ici]]. Le d
 ** [ ] Fuzzer l'encoder et le décoder Smart
 ** [ ] Faire le moteur de négociation
 ** [ ] Faire une abstraction du serveur (TCP pour l'instant)
+* Implémenter un /call-by-need/ dans ocaml-git
+
+L'idée est de ne pas obtenir l'objet Git dès qu'on souhaite juste le manipuler
+(~Value.t~) mais de l'obtenir seulement quand on souhaite accéder à une
+information à l'intérieur (comme ~Value.Commit.tree~).
+
+On peut imaginer cette définition:
+
+#+BEGIN_SRC ocaml
+type lazy =
+  | Pack of { hash : Hash.t; offset : int64 } (* identifiant du PACK et son offset dans le dit-PACK *)
+  | Loose
+and t =
+  | Loaded of [ `Commit of Commit.t | ... ]
+  | Unloaded of lazy
+#+END_SRC
+
+Bon après, je sais pas (et je pense pas) que cela soit vraiment efficace. On est
+déjà dans une politique /call-by-need/ dans le sens où on charge les objets
+seulement quand on les demande explicitement.
+
+Ici, il s'agit d'affiner un peu plus le /call-by-need/ et de faire les
+opérations nécessaires seulement quand on souhaite non seulement obtenir l'objet
+mais aussi obtenir les informations qu'il contient - maintenant est ce que ce
+n'est pas déjà le cas ?
+
+Le retour de Thomas: Il voudrait raffiner le parser en collectant les
+informations non pas d'un block comme c'est le cas mais petit à petit. On
+pourrait s'en sortir avec ~Angstrom~ en splittant le parser en plusieurs
+morceaux et en modifiant l'interface ~Commit.D~ pour notifier dès qu'on a
+décoder le ~tree~ (puisque c'est spécifiquement celui ci qui nous intéresse) et
+garder l'état du parser pour le faire continuer si l'utilisateur demande plus
+d'informations.
+
+Il est vrai que dans le format du commit, le ~tree~ est la première information
+et on a ensuite les parents - qui sont toutes les deux des informations
+relatives au parcours du DAG. Donc on peut imaginer que cela puisse être
+intéressant - on évite notamment de décompresser au meilleur des cas les autres
+valeurs et le message.
+
+Bref, il faudrait s'intéresser à la question mais elle serait spécifique en
+réalité au ~Commit~, répercuter le code sur les ~Blob~ n'a pas de sens par
+exemple.
 
 * TODO Regarder mirage-lambda et y participer
 
