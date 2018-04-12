@@ -48,8 +48,8 @@ C'est pas propre mais bon, il y a le `remove`.
 TODO extraire RFC1951 de decompress
 ===================================
 
-\[ \] contraindre decompress d'utiliser `camlzip.1.07`
-------------------------------------------------------
+TODO \[ \] contraindre decompress d'utiliser `camlzip.1.07`
+-----------------------------------------------------------
 
 Une relecture de decompress m'amène à faire:
 
@@ -78,6 +78,15 @@ Une relecture de decompress m'amène à faire:
 La PR est disponible
 [ici](https://github.com/mirage/decompress/pull/41). Le diff est pas
 trop lisible cependant.
+
+L'extraction est fini, j'en ai profité pour review un petit peu le code.
+On a cependant une question:
+
+Pouvons nous utiliser l'*overload* de l'opérateur `.%{}` (et restreindre
+les versions d'OCaml où Decompress compile ou utiliser directement
+`Array.unsafe_set` et `Array.unsafe_get`. C'est plus une question sur la
+lisibilité du code (et rien n'est prouvé au niveau des performances)
+qu'autre chose. Bref, il faut regarder cela plus précisement.
 
 TODO fixer Decompress.Inflate avec un random input
 ==================================================
