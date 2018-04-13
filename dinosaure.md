@@ -29,6 +29,9 @@ Corriger les fautes en anglais
 TODO Faire une release de radis
 ===============================
 
+Il s'agit de regarder surtout le licence et il semble qu'elle soit
+soumis à la LGPL 2.1.
+
 DONE Implémenter la fonction `remove`
 =====================================
 
@@ -45,8 +48,10 @@ affiner l'arbre:
 
 C'est pas propre mais bon, il y a le `remove`.
 
-TODO extraire RFC1951 de decompress
+DONE extraire RFC1951 de decompress
 ===================================
+
+CLOSED: \[2018-04-13 ven. 03:22\]
 
 TODO \[ \] contraindre decompress d'utiliser `camlzip.1.07`
 -----------------------------------------------------------
@@ -213,3 +218,7 @@ Implémenter Lwt~sequence~ avec CFML ou Why3 pour ocaml-tcpip
 
 Lwt~sequence~ va devenir obsolète, cela peut donc être une bonne
 opportunité de passer à du code prouvé
+
+Un papier de Filliâtre (de 2003, hal-00789533) infirme la possibilité de
+prover une liste doublement chaînée avec Why3. Il faudrait donc se
+tourner vers CFML - les ressources sont moins accessibles cependant.
