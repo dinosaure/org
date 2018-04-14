@@ -16,6 +16,11 @@ DONE Implémenter un fuzzer pour duff
 
 CLOSED: \[2018-04-06 ven. 15:56\]
 
+DONE Faire un binaire de duff
+=============================
+
+CLOSED: \[2018-04-13 ven. 17:50\]
+
 Le fuzzer est lancer sur 163.172.129.132.
 
 DONE faire le README.md de radis
@@ -95,6 +100,36 @@ qu'autre chose. Bref, il faut regarder cela plus précisement.
 
 TODO fixer Decompress.Inflate avec un random input
 ==================================================
+
+Bon, il semble que le problème essentiel soit que Decompress n'est
+toujours pas invalidé le contenu et attends un peu plus entant
+qu'*input*. Le comportement est disponible avec:
+
+``` {.bash}
+$ echo -n "a" > input
+$ ./dpipe < input > /dev/null
+^C
+```
+
+Dans ce contexte, puisque Decompress ne vérifie pas le *header* (TODO),
+il attends quelque chose. Cependant, le *refiller* retourne `0` et le
+considère pas comme étant la fin du fichier - notamment parce que dans
+un *stream* depuis une *socket*, ce n'est pas le cas.
+
+Donc le problème concerne plus de comment coder le `refiller` que
+Decompress. Bonne nouvelle.
+
+Cependant, il y a tout de même une *infinite loop* bien après avec un
+contenu *random*. Donc Decompress est bien trop permissif pour l'instant
+ce qui n'est pas le cas de `zlib`, on est bien face à un bug.
+
+TODO Vérifier RFC1951 sur les derniers bytes
+============================================
+
+En effet, puisque RFC1951 n'est pas forcément aligné, il nous faut
+vérifier proprement si on a bien écrit les derniers bytes nécessaires
+qui devrait se retrouver dans `hold` (et signaler à l'utilisateur
+combien de bits sont libres).
 
 Fuzzer encore
 =============
@@ -204,6 +239,22 @@ lisibilité).
 Bon selon dbuenzli, Camomile supporterait que unicode 3 et dépends de
 fichiers externes. Deux erreurs qu'il ne faudrait pas reproduire.
 
+Faire un outil d'importation des tables de mappings entre *charset* et unicode
+------------------------------------------------------------------------------
+
+### \[ \] outil d'importation des tables ISO8859
+
+### \[ \] outil d'importation des tables VENDORS
+
+Il semble que ISO8859 partage le même format pour le *mapping* (format
+A). Il semnle aussi que les VENDORS, eux, ne partagent pas
+spécifiquement le même format dans le *header* et les valeurs n'ont pas
+forcément pas la même représentation.
+
+On peut faire un lexer/parser qui puisse accepter les différents
+formats. Cependant, extraire les informations comme le nom, la date ou
+encore les auteurs semble être plus difficile.
+
 TODO Ce forcer à utiliser org-mode (2 mois de tests)
 ====================================================
 
@@ -222,3 +273,13 @@ opportunité de passer à du code prouvé
 Un papier de Filliâtre (de 2003, hal-00789533) infirme la possibilité de
 prover une liste doublement chaînée avec Why3. Il faudrait donc se
 tourner vers CFML - les ressources sont moins accessibles cependant.
+
+TODO Exporter les parsers d'Emile
+=================================
+
+Dans mon implémentation des fichiers *database* des charset avec
+l'unicode, il est nécessaire (pour éviter la duplication de code) que
+d'exporter les parsers d'emile.
+
+TODO Meilleur documentation pour Emile
+======================================
