@@ -221,3 +221,77 @@ est nécessaire (pour éviter la duplication de code) que d'exporter les parsers
 d'emile.
 
 * TODO Meilleur documentation pour Emile
+* TODO Faire une issue sur [[https://github.com/inhabitedtype/bigstringaf][bigstringaf]] pour connaitre et déblayer la situation avec ~Cstruct~ spécifiquement
+
+Bon c'est une issue un peu délicate où il s'agit de comprendre la situation de
+chacun par rapport au problème initial qu'est le module ~Bigarray~. En soit, la
+vrai question est de savoir si ~bigstringaf~ devrait remplacer ~Cstruct.t~,
+avoir un support pour MirageOS, et porter les différentes besoins par rapport à
+~Bigarray~. La liste est celle-ci:
+
+** Implémentation C (utilisant ~memcpy~ et/ou ~memmove~).
+
+La situation est que ~Bigarray~ utilise ~memmove~. ~Cstruct~ peut ne pas
+correspondre puisque de ~Bigarray~ vers ~Bigarray~, il utilise ~memmove~
+(~Decompress~ requiert la sémantique de ~memcpy~, qu'importe si c'est un
+~Bigarray~ ou une ~String~).
+
+[[https://github.com/yallop/ocaml-memcpy][ocaml-memcpy]] par @yallop propose déjà cette implémentation dirigé par
+~ocaml-ctypes~ ce qui ne le rends pas forcément favorable au niveau des petites
+librairies comme ~Angstrom~ et ~Decompress~.
+
+La question est pourtant difficile puisque une implémentation en C demande à ce
+qu'elle fonctionne sur MirageOS et si nous pouvions éviter du code C, ce serait
+pas mal (ce que fait ~Decompress~). Même si cela reste du code trivial, le
+diable se cache dans les détails.
+
+** Implémentation en OCaml
+
+C'est l'option prise par ~Decompress~. Bien entendu, il y a un impact sur les
+performances mais des différents benchmarks que j'ai fait, ce n'est pas le
+premier problème concernant ~Decompress~ (qui concerne plus le calcul Adler-32).
+
+Pour ~Angstrom~, bien entendu (et il me semble qu'il y a un /benchmark/),
+l'exécution devrait être plus rapide et dans le contexte majoritaire où
+~Angstrom~ se retrouvé à utiliser ~blit~ (et donc ~memmove~/~memcpy~) était pour
+passer d'un input (qui maintenant est contraint à être un ~Bigarray~) vers une
+~string~. Dans l'implémentation de ~Cstruct~, dans ce cas précis, il est utilisé
+~memcpy~ avec du code C.
+
+Cependant, la question à propos de MirageOS a déjà été réglé sur cette
+librairie. La question est donc de savoir pourquoi il y a eu un changement
+depuis ~Cstruct~ vers un /stuff/ interne, puis, ensuite vers ~bigstringaf~. Bien
+entendu, ceci devrait être en rapport avec les performances.
+
+** Bound-check
+
+Une critique pourtant qui s'applique à ~Cstruct~ est le /bound-check/. De mon
+point de vue, il est nécessaire même dans des contextes où on peut être sûr que
+le /bound-check/ ne soit pas nécessaire. Je préfère échouer que de corrompre
+l'information.
+
+Le coût du /bound-check/ n'a jamais vraiment été démontré (aucune trace de
+/benchmark/ pour ~Angstrom~). Cela vaut vraiment le coût ? Une question sans
+réponse.
+
+** Disgression
+
+Il y a bien entendu la question avec ~js_of_ocaml~ et ~bucklescript~. Mais
+flemme, ~Cstruct~ à un support de ~js_of_ocaml~ mais pas de ~bucklescript~. Le
+reste des librairies n'en n'ont pas.
+
+** Conclusion
+
+Il ne s'agit pas d'être bêtement contre ~bigstringaf~ mais de faire un état des
+lieux et de choisir le meilleur pour tout le monde. Je serais ravi qu'il n'y est
+qu'une seule librairie qui fasse correctement le boulot. 
+
+Cependant, la question ne peut pas être prise à la légère et si ~bigstringaf~
+devait remplir cette tâche, il lui incombe d'avoir non seulement un support pour
+les différents cas (spécialement à propos de MirageOS).
+
+Ce que je veux dire, c'est ~bigstringaf~ ne serait pas uniquement de la volonté
+d'~Angstrom~ et que cette dernière devrait s'occuper d'un plus large rôle (et
+cela rajouterais des responsabilités). Bref, c'est surtout trouver une solution
+qui puisse convenir et si choisir ~bigstringaf~ comme librairie de base pour des
+plus gros projets (comme ~ocaml-git~) est sans risque.
