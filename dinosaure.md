@@ -49,7 +49,7 @@ v) when k = key\` et sur les noeuds, on rattrape cet exception pour
 affiner l'arbre:
 
 -   B (l, r, \_, \_) -&gt; l ou r (en fonction de la direction)
--   T (m, k, v) -&gt; -&gt; L (k, v)
+-   T (m, k, v) -&gt; L (k, v)
 
 C'est pas propre mais bon, il y a le `remove`.
 
@@ -123,8 +123,10 @@ Cependant, il y a tout de même une *infinite loop* bien après avec un
 contenu *random*. Donc Decompress est bien trop permissif pour l'instant
 ce qui n'est pas le cas de `zlib`, on est bien face à un bug.
 
-TODO Vérifier RFC1951 sur les derniers bytes
+DONE Vérifier RFC1951 sur les derniers bytes
 ============================================
+
+CLOSED: \[2018-04-14 sam. 20:31\]
 
 En effet, puisque RFC1951 n'est pas forcément aligné, il nous faut
 vérifier proprement si on a bien écrit les derniers bytes nécessaires

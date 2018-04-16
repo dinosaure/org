@@ -1,4 +1,4 @@
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://gongzhitaao.org/orgcss/org.css" />
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://dinosaure.github.io/org/org.css" />
 
 * DONE extraire rabin d'ocaml-git et en faire une librairie (duff)
   CLOSED: [2018-04-06 ven. 14:32]
@@ -28,7 +28,7 @@ savoir que Radis n'a pas été fait pour enlever des éléments. La solution est
 donc de lever une exception ~Empty~ quand on trouve `L (k, v) when k = key` et
 sur les noeuds, on rattrape cet exception pour affiner l'arbre:
 - B (l, r, _, _) -> l ou r (en fonction de la direction)
-- T (m, k, v) -> -> L (k, v)
+- T (m, k, v)    -> L (k, v)
 
 C'est pas propre mais bon, il y a le ~remove~.
 
@@ -91,7 +91,8 @@ Cependant, il y a tout de même une /infinite loop/ bien après avec un contenu
 /random/. Donc Decompress est bien trop permissif pour l'instant ce qui n'est
 pas le cas de ~zlib~, on est bien face à un bug.
 
-* TODO Vérifier RFC1951 sur les derniers bytes
+* DONE Vérifier RFC1951 sur les derniers bytes
+  CLOSED: [2018-04-14 sam. 20:31]
 
 En effet, puisque RFC1951 n'est pas forcément aligné, il nous faut vérifier
 proprement si on a bien écrit les derniers bytes nécessaires qui devrait se
