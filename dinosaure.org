@@ -71,7 +71,8 @@ chose. Bref, il faut regarder cela plus précisement.
 * TODO fixer Decompress.Inflate avec un random input
 
 Bon, il semble que le problème essentiel soit que Decompress n'est toujours pas
-invalidé le contenu et attends un peu plus entant qu'/input/. Le comportement est disponible avec:
+invalidé le contenu et attends un peu plus entant qu'/input/. Le comportement
+est disponible avec:
 
 #+BEGIN_SRC sh
 $ echo -n "a" > input
@@ -104,10 +105,10 @@ retrouver dans ~hold~ (et signaler à l'utilisateur combien de bits sont libres)
 * TODO Optimiser ocaml-git
 * TODO Trouver pourquoi on avait pas trouver le bug par rapport aux \000 dans les noms dans les trees
 * TODO Faire le serveur
-** [ ] Fuzzer l'encoder et le décoder Smart
-** [ ] Faire le moteur de négociation
-** [ ] Faire une abstraction du serveur (TCP pour l'instant)
-* Implémenter un /call-by-need/ dans ocaml-git
+  - [ ] Fuzzer l'encoder et le décoder Smart
+  - [ ] Faire le moteur de négociation
+  - [ ] Faire une abstraction du serveur (TCP pour l'instant)
+Implémenter un /call-by-need/ dans ocaml-git
 
 L'idée est de ne pas obtenir l'objet Git dès qu'on souhaite juste le manipuler
 (~Value.t~) mais de l'obtenir seulement quand on souhaite accéder à une
@@ -186,8 +187,10 @@ Bon selon dbuenzli, Camomile supporterait que unicode 3 et dépends de fichiers
 externes. Deux erreurs qu'il ne faudrait pas reproduire.
 
 ** Faire un outil d'importation des tables de mappings entre /charset/ et unicode
-*** [ ] outil d'importation des tables ISO8859
-*** [ ] outil d'importation des tables VENDORS
+   - [-] outil d'importation des tables ISO8859
+     - [X] Extraire les informations des tables
+     - [ ] Extraire les auteurs
+   - [ ] outil d'importation des tables VENDORS
 
 Il semble que ISO8859 partage le même format pour le /mapping/ (format A). Il
 semnle aussi que les VENDORS, eux, ne partagent pas spécifiquement le même
