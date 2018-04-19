@@ -1,1 +1,390 @@
+DONE extraire rabin d'ocaml-git et en faire une librairie (duff)
+================================================================
 
+CLOSED: \[2018-04-06 ven. 14:32\]
+
+DONE Faire un README.md de duff
+===============================
+
+CLOSED: \[2018-04-09 lun. 16:52\]
+
+TODO Faire une release de duff
+==============================
+
+DONE Implémenter un fuzzer pour duff
+====================================
+
+CLOSED: \[2018-04-06 ven. 15:56\]
+
+DONE Faire un binaire de duff
+=============================
+
+CLOSED: \[2018-04-13 ven. 17:50\]
+
+Le fuzzer est lancer sur 163.172.129.132.
+
+DONE faire le README.md de radis
+================================
+
+CLOSED: \[2018-04-06 ven. 14:28\]
+
+Corriger les fautes en anglais
+------------------------------
+
+TODO Faire une release de radis
+===============================
+
+Il s'agit de regarder surtout le licence et il semble qu'elle soit
+soumis à la LGPL 2.1.
+
+DONE Implémenter la fonction `remove`
+=====================================
+
+CLOSED: \[2018-04-06 ven. 15:06\]
+
+Son implémentation est faite avec un trick sur les exceptions. Bon, il
+faut savoir que Radis n'a pas été fait pour enlever des éléments. La
+solution est donc de lever une exception `Empty` quand on trouve \`L (k,
+v) when k = key\` et sur les noeuds, on rattrape cet exception pour
+affiner l'arbre:
+
+-   B (l, r, \_, \_) -&gt; l ou r (en fonction de la direction)
+-   T (m, k, v) -&gt; L (k, v)
+
+C'est pas propre mais bon, il y a le `remove`.
+
+DONE extraire RFC1951 de decompress
+===================================
+
+CLOSED: \[2018-04-13 ven. 03:22\]
+
+TODO \[ \] contraindre decompress d'utiliser `camlzip.1.07`
+-----------------------------------------------------------
+
+Une relecture de decompress m'amène à faire:
+
+-   une factorisation du code comme j'ai fait dans le PACK décodeur. En
+    effet, `get_bits`, `get_byte`, etc. sont implémentés plusieurs fois
+    dans le code. Il s'agit de rajouter un argument `ctor` pour savoir
+    sur quelle ADT utiliser.
+-   Dans `Dictionary.inflate.get`, on vérifie `t.bits` pour ensuite
+    exécuter `peek_bits` qui fait la même vérification. C'est une
+    duplication des vérifications que je viens de supprimer (l'impact
+    sur les performances devrait être marginal cependant).
+-   `Dictionary.inflate` pose un gros problème. En effet, lorsqu'il
+    s'agit de répéter l'opération `loop` après avoir lu quelques bits
+    avec `get`, la valeur n'est pas repris correctement par le `k` avec
+    ses arguments. C'est hyper bizarre.
+
+    Bon en réalité c'était des noms de variables qui correspondaient pas
+    à ce qu'ils faisaient mais l'ordre était toujours bon. Genre:
+    -   \`get (fun src dst t -&gt; loop src dst t)\` // partial
+        application
+    -   \`get (fun v src dst t -&gt; loop v src dst t)\`
+-   Je viens de me rendre compte la `window` peut être accessible à
+    partir de `t` au lieu de le passer aux fonctions. Cela peut être une
+    optimisation car, dans certains cas, on n'alloue pas des closures.
+
+La PR est disponible
+[ici](https://github.com/mirage/decompress/pull/41). Le diff est pas
+trop lisible cependant.
+
+L'extraction est fini, j'en ai profité pour review un petit peu le code.
+On a cependant une question:
+
+Pouvons nous utiliser l'*overload* de l'opérateur `.%{}` (et restreindre
+les versions d'OCaml où Decompress compile ou utiliser directement
+`Array.unsafe_set` et `Array.unsafe_get`. C'est plus une question sur la
+lisibilité du code (et rien n'est prouvé au niveau des performances)
+qu'autre chose. Bref, il faut regarder cela plus précisement.
+
+DONE fixer Decompress.Inflate avec un random input
+==================================================
+
+CLOSED: \[2018-04-19 jeu. 16:44\]
+
+Bon, il semble que le problème essentiel soit que Decompress n'est
+toujours pas invalidé le contenu et attends un peu plus entant
+qu'*input*. Le comportement est disponible avec:
+
+``` {.bash}
+$ echo -n "a" > input
+$ ./dpipe < input > /dev/null
+^C
+```
+
+Dans ce contexte, puisque Decompress ne vérifie pas le *header* (TODO),
+il attends quelque chose. Cependant, le *refiller* retourne `0` et le
+considère pas comme étant la fin du fichier - notamment parce que dans
+un *stream* depuis une *socket*, ce n'est pas le cas.
+
+Donc le problème concerne plus de comment coder le `refiller` que
+Decompress. Bonne nouvelle.
+
+Cependant, il y a tout de même une *infinite loop* bien après avec un
+contenu *random*. Donc Decompress est bien trop permissif pour l'instant
+ce qui n'est pas le cas de `zlib`, on est bien face à un bug.
+
+DONE Vérifier RFC1951 sur les derniers bytes
+============================================
+
+CLOSED: \[2018-04-14 sam. 20:31\]
+
+En effet, puisque RFC1951 n'est pas forcément aligné, il nous faut
+vérifier proprement si on a bien écrit les derniers bytes nécessaires
+qui devrait se retrouver dans `hold` (et signaler à l'utilisateur
+combien de bits sont libres).
+
+DONE Vérifier le *header* dans decompress
+=========================================
+
+CLOSED: \[2018-04-19 jeu. 16:44\]
+
+Fuzzer encore
+=============
+
+Il faut attendre la [PR de Gabriel](https://github.com/stedolan/crowbar/pull/36) pour faire ce travail.
+-------------------------------------------------------------------------------------------------------
+
+TODO Optimiser ocaml-git
+========================
+
+TODO Trouver pourquoi on avait pas trouver le bug par rapport aux \000 dans les noms dans les trees
+===================================================================================================
+
+TODO Extraire la partie qui sérialize une seule *entry* dans l'implémentation du PACK
+=====================================================================================
+
+TODO Faire le serveur
+=====================
+
+-   \[ \] Fuzzer l'encoder et le décoder Smart
+-   \[ \] Faire le moteur de négociation
+-   \[ \] Faire une abstraction du serveur (TCP pour l'instant)
+
+Implémenter un *call-by-need* dans ocaml-git
+
+L'idée est de ne pas obtenir l'objet Git dès qu'on souhaite juste le
+manipuler (`Value.t`) mais de l'obtenir seulement quand on souhaite
+accéder à une information à l'intérieur (comme `Value.Commit.tree`).
+
+On peut imaginer cette définition:
+
+``` {.ocaml}
+type lazy =
+  | Pack of { hash : Hash.t; offset : int64 } (* identifiant du PACK et son offset dans le dit-PACK *)
+  | Loose
+and t =
+  | Loaded of [ `Commit of Commit.t | ... ]
+  | Unloaded of lazy
+```
+
+Bon après, je sais pas (et je pense pas) que cela soit vraiment
+efficace. On est déjà dans une politique *call-by-need* dans le sens où
+on charge les objets seulement quand on les demande explicitement.
+
+Ici, il s'agit d'affiner un peu plus le *call-by-need* et de faire les
+opérations nécessaires seulement quand on souhaite non seulement obtenir
+l'objet mais aussi obtenir les informations qu'il contient - maintenant
+est ce que ce n'est pas déjà le cas ?
+
+Le retour de Thomas: Il voudrait raffiner le parser en collectant les
+informations non pas d'un block comme c'est le cas mais petit à petit.
+On pourrait s'en sortir avec `Angstrom` en splittant le parser en
+plusieurs morceaux et en modifiant l'interface `Commit.D` pour notifier
+dès qu'on a décoder le `tree` (puisque c'est spécifiquement celui ci qui
+nous intéresse) et garder l'état du parser pour le faire continuer si
+l'utilisateur demande plus d'informations.
+
+Il est vrai que dans le format du commit, le `tree` est la première
+information et on a ensuite les parents - qui sont toutes les deux des
+informations relatives au parcours du DAG. Donc on peut imaginer que
+cela puisse être intéressant - on évite notamment de décompresser au
+meilleur des cas les autres valeurs et le message.
+
+Bref, il faudrait s'intéresser à la question mais elle serait spécifique
+en réalité au `Commit`, répercuter le code sur les `Blob` n'a pas de
+sens par exemple.
+
+TODO Regarder mirage-lambda et y participer
+===========================================
+
+Passer Mr. MIME à Angstrom
+==========================
+
+J'ai eu une idée de GADT.
+
+``` {.ocaml}
+type 'a field
+  | Content_type : content_type field
+  | Msg_id : msg_id field
+
+type res =
+  [ `Await of decoder
+  | `Header of ('v field, 'v)
+  | `End ]
+```
+
+En gros, le décodeur va s'arrêter à chaque *fields* de l'e-mail et
+donner sa valeur. Ce sera super bien typé grâce au GADT `field`. Il
+suffira d'une fonction `continue` pour passer au `field` suivant ou au
+`body`. Cependant, la question du `body` (entre `multipart/alternate` ou
+simple `multipart`) ce pose toujours.
+
+Gérer l'*encoding* des e-mails (normaliser un *encoding* vers de l'UTF-8)
+=========================================================================
+
+Camomile fait déjà le *mapping* entre les *encodings* et l'unicode.
+Cependant, en regardant le code, c'est à la fois complexe, redondant et
+certainements inutiles. Un simple exemple, la structure permettant de
+mapper un code d'un encoding vers un autre est implémenter dans `Tbl31`:
+le code est juste immonde - un patricia tree suffirait largement (bien
+entendu, il faudrait faire des benchmarks mais on y gagnerais en
+lisibilité).
+
+Bon selon dbuenzli, Camomile supporterait que unicode 3 et dépends de
+fichiers externes. Deux erreurs qu'il ne faudrait pas reproduire.
+
+Faire un outil d'importation des tables de mappings entre *charset* et unicode
+------------------------------------------------------------------------------
+
+-   \[-\] outil d'importation des tables ISO8859
+    -   \[X\] Extraire les informations des tables
+    -   \[ \] Extraire les auteurs
+-   \[ \] outil d'importation des tables VENDORS
+
+Il semble que ISO8859 partage le même format pour le *mapping* (format
+A). Il semnle aussi que les VENDORS, eux, ne partagent pas
+spécifiquement le même format dans le *header* et les valeurs n'ont pas
+forcément pas la même représentation.
+
+On peut faire un lexer/parser qui puisse accepter les différents
+formats. Cependant, extraire les informations comme le nom, la date ou
+encore les auteurs semble être plus difficile.
+
+TODO Ce forcer à utiliser org-mode (2 mois de tests)
+====================================================
+
+TODO Avoir deux serveur uDNS (un sur intel et un sur arm) et configurer son PC sur ces serveur
+==============================================================================================
+
+Ce qui est compliqué, c'est que les ressources pour utiliser udns sont
+inexistante et il faut pousser hannes pour faire un tutoriel.
+
+Implémenter Lwt~sequence~ avec CFML ou Why3 pour ocaml-tcpip
+============================================================
+
+Lwt~sequence~ va devenir obsolète, cela peut donc être une bonne
+opportunité de passer à du code prouvé
+
+Un papier de Filliâtre (de 2003, hal-00789533) infirme la possibilité de
+prover une liste doublement chaînée avec Why3. Il faudrait donc se
+tourner vers CFML - les ressources sont moins accessibles cependant.
+
+TODO Exporter les parsers d'Emile
+=================================
+
+Dans mon implémentation des fichiers *database* des charset avec
+l'unicode, il est nécessaire (pour éviter la duplication de code) que
+d'exporter les parsers d'emile.
+
+DONE Meilleur documentation pour Emile
+======================================
+
+CLOSED: \[2018-04-19 jeu. 14:57\]
+
+TODO Fixer `quoted_string` (Emile)
+==================================
+
+DONE Faire une issue sur [bigstringaf](https://github.com/inhabitedtype/bigstringaf) pour connaitre et déblayer la situation avec `Cstruct` spécifiquement
+==========================================================================================================================================================
+
+CLOSED: \[2018-04-19 jeu. 15:02\]
+
+Bon c'est une issue un peu délicate où il s'agit de comprendre la
+situation de chacun par rapport au problème initial qu'est le module
+`Bigarray`. En soit, la vrai question est de savoir si `bigstringaf`
+devrait remplacer `Cstruct.t`, avoir un support pour MirageOS, et porter
+les différentes besoins par rapport à `Bigarray`. La liste est celle-ci:
+
+Implémentation C (utilisant `memcpy` et/ou `memmove`).
+------------------------------------------------------
+
+La situation est que `Bigarray` utilise `memmove`. `Cstruct` peut ne pas
+correspondre puisque de `Bigarray` vers `Bigarray`, il utilise `memmove`
+(`Decompress` requiert la sémantique de `memcpy`, qu'importe si c'est un
+`Bigarray` ou une `String`).
+
+[ocaml-memcpy](https://github.com/yallop/ocaml-memcpy) par @yallop
+propose déjà cette implémentation dirigé par `ocaml-ctypes` ce qui ne le
+rends pas forcément favorable au niveau des petites librairies comme
+`Angstrom` et `Decompress`.
+
+La question est pourtant difficile puisque une implémentation en C
+demande à ce qu'elle fonctionne sur MirageOS et si nous pouvions éviter
+du code C, ce serait pas mal (ce que fait `Decompress`). Même si cela
+reste du code trivial, le diable se cache dans les détails.
+
+Implémentation en OCaml
+-----------------------
+
+C'est l'option prise par `Decompress`. Bien entendu, il y a un impact
+sur les performances mais des différents benchmarks que j'ai fait, ce
+n'est pas le premier problème concernant `Decompress` (qui concerne plus
+le calcul Adler-32).
+
+Pour `Angstrom`, bien entendu (et il me semble qu'il y a un
+*benchmark*), l'exécution devrait être plus rapide et dans le contexte
+majoritaire où `Angstrom` se retrouvé à utiliser `blit` (et donc
+`memmove~/~memcpy`) était pour passer d'un input (qui maintenant est
+contraint à être un `Bigarray`) vers une `string`. Dans l'implémentation
+de `Cstruct`, dans ce cas précis, il est utilisé `memcpy` avec du code
+C.
+
+Cependant, la question à propos de MirageOS a déjà été réglé sur cette
+librairie. La question est donc de savoir pourquoi il y a eu un
+changement depuis `Cstruct` vers un *stuff* interne, puis, ensuite vers
+`bigstringaf`. Bien entendu, ceci devrait être en rapport avec les
+performances.
+
+Bound-check
+-----------
+
+Une critique pourtant qui s'applique à `Cstruct` est le *bound-check*.
+De mon point de vue, il est nécessaire même dans des contextes où on
+peut être sûr que le *bound-check* ne soit pas nécessaire. Je préfère
+échouer que de corrompre l'information.
+
+Le coût du *bound-check* n'a jamais vraiment été démontré (aucune trace
+de *benchmark* pour `Angstrom`). Cela vaut vraiment le coût ? Une
+question sans réponse.
+
+Disgression
+-----------
+
+Il y a bien entendu la question avec `js_of_ocaml` et `bucklescript`.
+Mais flemme, `Cstruct` à un support de `js_of_ocaml` mais pas de
+`bucklescript`. Le reste des librairies n'en n'ont pas.
+
+Conclusion
+----------
+
+Il ne s'agit pas d'être bêtement contre `bigstringaf` mais de faire un
+état des lieux et de choisir le meilleur pour tout le monde. Je serais
+ravi qu'il n'y est qu'une seule librairie qui fasse correctement le
+boulot.
+
+Cependant, la question ne peut pas être prise à la légère et si
+`bigstringaf` devait remplir cette tâche, il lui incombe d'avoir non
+seulement un support pour les différents cas (spécialement à propos de
+MirageOS).
+
+Ce que je veux dire, c'est `bigstringaf` ne serait pas uniquement de la
+volonté d'`Angstrom` et que cette dernière devrait s'occuper d'un plus
+large rôle (et cela rajouterais des responsabilités). Bref, c'est
+surtout trouver une solution qui puisse convenir et si choisir
+`bigstringaf` comme librairie de base pour des plus gros projets (comme
+`ocaml-git`) est sans risque.
+
+Bon on peut dire que le problème est réglé avec [cette
+PR](https://github.com/inhabitedtype/bigstringaf/pull/10).
