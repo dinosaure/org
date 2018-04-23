@@ -4,7 +4,8 @@
   CLOSED: [2018-04-06 ven. 14:32]
 * DONE Faire un README.md de duff
   CLOSED: [2018-04-09 lun. 16:52]
-* TODO Faire une release de duff
+* DONE Faire une release de duff
+  CLOSED: [2018-04-21 sam. 01:14]
 * DONE Implémenter un fuzzer pour duff
   CLOSED: [2018-04-06 ven. 15:56]
 * DONE Faire un binaire de duff
@@ -32,6 +33,9 @@ sur les noeuds, on rattrape cet exception pour affiner l'arbre:
 
 C'est pas propre mais bon, il y a le ~remove~.
 
+* DONE Faire en sorte que ~radis~ respect ~Map.S~
+  CLOSED: [2018-04-22 dim. 15:46]
+* TODO Implémenter des tests sur ~radis~
 * DONE extraire RFC1951 de decompress
   CLOSED: [2018-04-13 ven. 03:22]
 ** TODO [ ] contraindre decompress d'utiliser ~camlzip.1.07~
@@ -107,8 +111,107 @@ retrouver dans ~hold~ (et signaler à l'utilisateur combien de bits sont libres)
 ** Il faut attendre la [[https://github.com/stedolan/crowbar/pull/36][PR de Gabriel]] pour faire ce travail.
 
 * TODO Optimiser ocaml-git
+** TODO Utiliser ~Hashtbl~ à la place de ~Map~
+** Revoir ~Pack_info~ et réutiliser son code pour l'analyze d'un flux PACK
+   - [ ] factoriser et nettoyer le code
+   - [X] renommer les fonctions disponibles en ~first_pass~ et ~second_pass~
+   - [ ] réutiliser ces fonctions dans ~Store~ et ~Mem~
+   - [ ] optimiser ces /pass/
+
+Bon il faut mettre un peu à plat la logique des PACKs.
+
+Il y a 2 façon de trouver un fichier PACK dans un dépôt git:
+- Il est déjà présent dans le dépôts — dans ce cas, aucune analyze n'est faite,
+  mais on a le fichier IDX disposible (normalement)
+- Il est obtenu par le réseau — on a pas de fichier IDX mais pendant la
+  transmission, on peut y faire une première analyze
+
+Il faut bien dissocier les deux manières pour comprendre leurs évolutions.
+Finalement, dans le ~Pack_engine~, on peut dissocier 4 états:
+
+- le fichier PACK existes (avec un fichier IDX)
+- le fichier PACK est chargé (ainsi que son fichier IDX)
+- le fichier PACK est chargé (ainsi que son fichier IDX) et on a déjà fait une
+  première /pass/
+- le fichier PACK est chargé, le fichier IDX n'est plus chargé, on a traité tout
+  les objets → on a une ~Hashtbl~ équivalente au fichier IDX (et, sur la
+  vitesse, il est préférable d'utiliser cette dernière)
+
+  On sait aussi (puisqu'on a résolu tout les objets) si le PACK est /thin/ ou pas
+- on a tout les éléments pour extraire n'importe qu'elle objet du fichier PACK
+  et on sait (ou on a fait en sorte que) il n'est pas /thin/
+
+Dans le dernier cas, on est certains de pouvoir extraire TOUT les objets du
+fichier PACK sans AUCUNE allocation (puisqu'elles ont été faite au préalable).
+
+Arriver à cette situation à cependant un coup comme c'est le cas dans la version
+courante d'~ocaml-git~. Il faut en gros extraire tout les objets du fichier PACK
+pour ensuite être certain de la situation et promouvoir l'état au dernier
+status. On peut déterminer 2 (voir 3) phases:
+
+- La première consiste à décompresser (seulement) les objets qui ne sont pas
+  delta-ifiés et d'aggréger hash et /checksum/ de ces objets dans une ~Hashtbl~.
+ 
+  Cette phase permet aussi de connaître le *possible* /path/ de delta-ification
+  (qui, dans le cas le plus commun, correspond au vrai /path/). Je veux dire
+  quoi par là. Un objet delta-ifié pointe forcément sur un objet (OBJ_REF_DELTA
+  ou OBJ_OFS_DELTA). Normallement, cette source ce trouve *avant* le dit objet.
+
+  + Dans le cas d'OBJ_OFS_DELTA, c'est assez simple de reconstruire la chaîne et
+    de dire que le dit objet à besoin d'une application avec l'objet source qui
+    est *déjà* présent dans notre ~Hashtbl~ qui fait office de fichier IDX
+    partiel. Dans ce cas, on considère que sa profondeur est celle de l'objet
+    source + 1 (cette dernière ayant *déjà* été calculé).
+
+  + Dans le cas d'OBJ_REF_DELTA, c'est plus compliqué. Il peut arrivé qu'on ait
+    déjà traiter une *base* (donc qui n'est pas delta-ifié) ayant le hash
+    référencé. Cependant, rien ne nous assure que ça soit bien le cas - et la
+    documentation est putain de pas clair sur ça.
+
+    En cela, si on a de la chance, on peut considérer que la profondeur de
+    l'objet est de 1 (vu qu'on ne pourra pas aller plus loin dans la
+    delta-ification - peut être que l'objet source est lui même delta-ifié mais
+    si c'est le cas, dans la première /pass/, on le retrouvera pas vu qu'on aura
+    pas son hash, c'est pour cette raison que le note comme étant ~Unresolved~).
+
+    Dans le pire cas, cela reste une mystère.
+
+  Ainsi, dans cette /pass/, on a une vu partiel qui peut aider à limiter les
+  allocations nécessaires pour extraire les objets du fichier PACK mais on ne
+  pourra pas les limiter. L'idée est donc de /s'aider/ des paths calculés pour
+  donner une allocation *partielle* nécessaire au stockage des ~hunks~.
+
+  NOTE: La fonction ~get~ de ~Unpack~ attends donc à ce que chaque niveau soient
+  bien calculés mais qu'il n'est pas nécessaire d'avoir tout les niveaux.
+
+- La deuxième consiste à ce qu'on ait résolu tout les objets delta-ifié ce qui
+  veut dire que tout les /paths/ devrait être tout résolus - à chaque fois qu'on
+  extrait un objet, on obtient aussi son /path/ résolu.
+
+  En cela, on peut savoir l'allocation nécessaire pour chaque niveau pour les
+  /hunks/ premièrement et et on peut aussi savoir si le PACK est /thin/ ou pas -
+  c'est à dire si il demande un objet extérieur ou pas.
+
+  Dans le cas où il n'est pas /thin/, on est dans la situation où on sait
+  exactement ce qu'on a besoin pour extraire tout les objets. Si il est /thin/,
+  puisqu'il y a un (ou plusieurs) objet extérieur au PACK requis pour la
+  reconstruction d'un ou plusieurs objets, il s'agira forcément d'allouer cet
+  objet (je parle d'allocation puisqu'on devra forcément avoir des buffers
+  extérieurs au scope des buffers qui sont déjà utilisés) pour reconstruire
+  finalement l'objet cible.
+
+- Et la troisième phase enfin consiste à re-/packer/ le fichier PACK pour qu'il
+  ne soit plus /thin/.
+
+Donc avec 2 /entry point/, 5 états et 3 /pass/, je pense qu'on est bon au niveau
+de la granularité du traitement des fichiers PACK. Cela semble carrément
+compliqué mais il faut aussi saisir que ce n'est pas dans cette logique que
+fonctionne ~git~ (qui reste un utilitaire de commande qui ne cherche pas à gérer
+dans un contexte ~memory bounded~ l'extraction des objets).
+
 * TODO Trouver pourquoi on avait pas trouver le bug par rapport aux \000 dans les noms dans les trees
 * TODO Extraire la partie qui sérialize une seule /entry/ dans l'implémentation du PACK
+* TODO Permettre d'encoder une seule /entry/ pour ~wodan~
 * TODO Faire le serveur
   - [ ] Fuzzer l'encoder et le décoder Smart
   - [ ] Faire le moteur de négociation
@@ -222,7 +325,8 @@ Un papier de Filliâtre (de 2003, hal-00789533) infirme la possibilité de prove
 une liste doublement chaînée avec Why3. Il faudrait donc se tourner vers CFML -
 les ressources sont moins accessibles cependant.
 
-* TODO Exporter les parsers d'Emile
+* DONE Exporter les parsers d'Emile
+  CLOSED: [2018-04-20 ven. 15:06]
 
 Dans mon implémentation des fichiers /database/ des charset avec l'unicode, il
 est nécessaire (pour éviter la duplication de code) que d'exporter les parsers
