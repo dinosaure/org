@@ -117,6 +117,12 @@ retrouver dans ~hold~ (et signaler à l'utilisateur combien de bits sont libres)
    - [X] renommer les fonctions disponibles en ~first_pass~ et ~second_pass~
    - [ ] réutiliser ces fonctions dans ~Store~ et ~Mem~
    - [ ] optimiser ces /pass/
+   - [X] optimiser l'accès aux /meta-data/ d'une /entry/ d'un fichier PACK
+
+     Sur ce dernier point, il me semble que obtenir la taille de l'objet était
+     plus long pour un objet delta-ifié puisqu'on attendait un état au décodeur
+     Hunk se qui impliquait qu'on commence (et même qu'on termine) la
+     décompression de l'/entry/. Bref, ce n'est plus le cas maintenant.
 
 Bon il faut mettre un peu à plat la logique des PACKs.
 

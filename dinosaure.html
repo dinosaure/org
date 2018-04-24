@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2018-04-24 mar. 00:20 -->
+<!-- 2018-04-24 mar. 16:23 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>&lrm;</title>
@@ -234,91 +234,91 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org8f1c6f5">1. <span class="done DONE">DONE</span> extraire rabin d'ocaml-git et en faire une librairie (duff)</a></li>
-<li><a href="#org7c9d48c">2. <span class="done DONE">DONE</span> Faire un README.md de duff</a></li>
-<li><a href="#org119cef5">3. <span class="done DONE">DONE</span> Faire une release de duff</a></li>
-<li><a href="#org442280e">4. <span class="done DONE">DONE</span> Implémenter un fuzzer pour duff</a></li>
-<li><a href="#orge735697">5. <span class="done DONE">DONE</span> Faire un binaire de duff</a></li>
-<li><a href="#org68e7359">6. <span class="done DONE">DONE</span> faire le README.md de radis</a>
+<li><a href="#orgad0b4c0">1. <span class="done DONE">DONE</span> extraire rabin d'ocaml-git et en faire une librairie (duff)</a></li>
+<li><a href="#orgdbc76ce">2. <span class="done DONE">DONE</span> Faire un README.md de duff</a></li>
+<li><a href="#org023d1ac">3. <span class="done DONE">DONE</span> Faire une release de duff</a></li>
+<li><a href="#org6f43cd5">4. <span class="done DONE">DONE</span> Implémenter un fuzzer pour duff</a></li>
+<li><a href="#orgc4eb44d">5. <span class="done DONE">DONE</span> Faire un binaire de duff</a></li>
+<li><a href="#org1a9aac2">6. <span class="done DONE">DONE</span> faire le README.md de radis</a>
 <ul>
-<li><a href="#org6caacc2">6.1. Corriger les fautes en anglais</a></li>
+<li><a href="#org0bbffda">6.1. Corriger les fautes en anglais</a></li>
 </ul>
 </li>
-<li><a href="#orgd39600c">7. <span class="todo TODO">TODO</span> Faire une release de radis</a></li>
-<li><a href="#org63046a6">8. <span class="done DONE">DONE</span> Implémenter la fonction <code>remove</code></a></li>
-<li><a href="#org9de2c08">9. <span class="done DONE">DONE</span> Faire en sorte que <code>radis</code> respect <code>Map.S</code></a></li>
-<li><a href="#orgafbc27c">10. <span class="todo TODO">TODO</span> Implémenter des tests sur <code>radis</code></a></li>
-<li><a href="#org49e3516">11. <span class="done DONE">DONE</span> extraire RFC1951 de decompress</a>
+<li><a href="#org043ec3a">7. <span class="todo TODO">TODO</span> Faire une release de radis</a></li>
+<li><a href="#orgcb55587">8. <span class="done DONE">DONE</span> Implémenter la fonction <code>remove</code></a></li>
+<li><a href="#orgc5e314f">9. <span class="done DONE">DONE</span> Faire en sorte que <code>radis</code> respect <code>Map.S</code></a></li>
+<li><a href="#orgdd438c6">10. <span class="todo TODO">TODO</span> Implémenter des tests sur <code>radis</code></a></li>
+<li><a href="#orgf0849fb">11. <span class="done DONE">DONE</span> extraire RFC1951 de decompress</a>
 <ul>
-<li><a href="#orgc2f637f">11.1. <span class="todo TODO">TODO</span> [ ] contraindre decompress d'utiliser <code>camlzip.1.07</code></a></li>
+<li><a href="#org5ba7e08">11.1. <span class="todo TODO">TODO</span> [ ] contraindre decompress d'utiliser <code>camlzip.1.07</code></a></li>
 </ul>
 </li>
-<li><a href="#org797975e">12. <span class="done DONE">DONE</span> fixer Decompress.Inflate avec un random input</a></li>
-<li><a href="#org13f9cf2">13. <span class="done DONE">DONE</span> Vérifier RFC1951 sur les derniers bytes</a></li>
-<li><a href="#org128e903">14. <span class="done DONE">DONE</span> Vérifier le <i>header</i> dans decompress</a></li>
-<li><a href="#orgd1cf46f">15. Fuzzer encore</a>
+<li><a href="#orgf61eb91">12. <span class="done DONE">DONE</span> fixer Decompress.Inflate avec un random input</a></li>
+<li><a href="#org5692ee3">13. <span class="done DONE">DONE</span> Vérifier RFC1951 sur les derniers bytes</a></li>
+<li><a href="#org0ec412c">14. <span class="done DONE">DONE</span> Vérifier le <i>header</i> dans decompress</a></li>
+<li><a href="#orga0415a4">15. Fuzzer encore</a>
 <ul>
-<li><a href="#orge22914e">15.1. Il faut attendre la PR de Gabriel pour faire ce travail.</a></li>
+<li><a href="#orge9282f4">15.1. Il faut attendre la PR de Gabriel pour faire ce travail.</a></li>
 </ul>
 </li>
-<li><a href="#org56fd8db">16. <span class="todo TODO">TODO</span> Optimiser ocaml-git</a>
+<li><a href="#orgf13ba09">16. <span class="todo TODO">TODO</span> Optimiser ocaml-git</a>
 <ul>
-<li><a href="#orgc1f65e0">16.1. <span class="todo TODO">TODO</span> Utiliser <code>Hashtbl</code> à la place de <code>Map</code></a></li>
-<li><a href="#orgabf9fcb">16.2. Revoir <code>Pack_info</code> et réutiliser son code pour l'analyze d'un flux PACK</a></li>
+<li><a href="#org2d464d4">16.1. <span class="todo TODO">TODO</span> Utiliser <code>Hashtbl</code> à la place de <code>Map</code></a></li>
+<li><a href="#org87b9b0e">16.2. Revoir <code>Pack_info</code> et réutiliser son code pour l'analyze d'un flux PACK</a></li>
 </ul>
 </li>
-<li><a href="#orge76c720">17. <span class="todo TODO">TODO</span> Trouver pourquoi on avait pas trouver le bug par rapport aux \000 dans les noms dans les trees</a></li>
-<li><a href="#orga51eb42">18. <span class="todo TODO">TODO</span> Extraire la partie qui sérialize une seule <i>entry</i> dans l'implémentation du PACK</a></li>
-<li><a href="#org4704e87">19. <span class="todo TODO">TODO</span> Permettre d'encoder une seule <i>entry</i> pour <code>wodan</code></a></li>
-<li><a href="#org133d5f8">20. <span class="todo TODO">TODO</span> Faire le serveur</a></li>
-<li><a href="#orgcfb0a7e">21. <span class="todo TODO">TODO</span> Regarder mirage-lambda et y participer</a></li>
-<li><a href="#org07f4d92">22. Passer Mr. MIME à Angstrom</a></li>
-<li><a href="#org464b8ac">23. Gérer l'<i>encoding</i> des e-mails (normaliser un <i>encoding</i> vers de l'UTF-8)</a>
+<li><a href="#org284dce8">17. <span class="todo TODO">TODO</span> Trouver pourquoi on avait pas trouver le bug par rapport aux \000 dans les noms dans les trees</a></li>
+<li><a href="#orga65286b">18. <span class="todo TODO">TODO</span> Extraire la partie qui sérialize une seule <i>entry</i> dans l'implémentation du PACK</a></li>
+<li><a href="#org584b3fd">19. <span class="todo TODO">TODO</span> Permettre d'encoder une seule <i>entry</i> pour <code>wodan</code></a></li>
+<li><a href="#org7ff9ab1">20. <span class="todo TODO">TODO</span> Faire le serveur</a></li>
+<li><a href="#org4ecd6a8">21. <span class="todo TODO">TODO</span> Regarder mirage-lambda et y participer</a></li>
+<li><a href="#org993a965">22. Passer Mr. MIME à Angstrom</a></li>
+<li><a href="#org9e5ec48">23. Gérer l'<i>encoding</i> des e-mails (normaliser un <i>encoding</i> vers de l'UTF-8)</a>
 <ul>
-<li><a href="#org07a7bf8">23.1. Faire un outil d'importation des tables de mappings entre <i>charset</i> et unicode</a></li>
+<li><a href="#org103bf16">23.1. Faire un outil d'importation des tables de mappings entre <i>charset</i> et unicode</a></li>
 </ul>
 </li>
-<li><a href="#org539ed9e">24. <span class="todo TODO">TODO</span> Ce forcer à utiliser org-mode (2 mois de tests)</a></li>
-<li><a href="#orge22aba4">25. <span class="todo TODO">TODO</span> Avoir deux serveur uDNS (un sur intel et un sur arm) et configurer son PC sur ces serveur</a></li>
-<li><a href="#orgbe04a3d">26. Implémenter Lwt<sub>sequence</sub> avec CFML ou Why3 pour ocaml-tcpip</a></li>
-<li><a href="#org5b11e04">27. <span class="done DONE">DONE</span> Exporter les parsers d'Emile</a></li>
-<li><a href="#org9fb476e">28. <span class="done DONE">DONE</span> Meilleur documentation pour Emile</a></li>
-<li><a href="#orgdc60b4b">29. <span class="todo TODO">TODO</span> Fixer <code>quoted_string</code> (Emile)</a></li>
-<li><a href="#org2a663d6">30. <span class="done DONE">DONE</span> Faire une issue sur bigstringaf pour connaitre et déblayer la situation avec <code>Cstruct</code> spécifiquement</a>
+<li><a href="#org622a590">24. <span class="todo TODO">TODO</span> Ce forcer à utiliser org-mode (2 mois de tests)</a></li>
+<li><a href="#org9c3967d">25. <span class="todo TODO">TODO</span> Avoir deux serveur uDNS (un sur intel et un sur arm) et configurer son PC sur ces serveur</a></li>
+<li><a href="#org9fcf542">26. Implémenter Lwt<sub>sequence</sub> avec CFML ou Why3 pour ocaml-tcpip</a></li>
+<li><a href="#org052b57f">27. <span class="done DONE">DONE</span> Exporter les parsers d'Emile</a></li>
+<li><a href="#orgf006dc1">28. <span class="done DONE">DONE</span> Meilleur documentation pour Emile</a></li>
+<li><a href="#orge509ac8">29. <span class="todo TODO">TODO</span> Fixer <code>quoted_string</code> (Emile)</a></li>
+<li><a href="#orgac76b1e">30. <span class="done DONE">DONE</span> Faire une issue sur bigstringaf pour connaitre et déblayer la situation avec <code>Cstruct</code> spécifiquement</a>
 <ul>
-<li><a href="#orgb8602fd">30.1. Implémentation C (utilisant <code>memcpy</code> et/ou <code>memmove</code>).</a></li>
-<li><a href="#org678f624">30.2. Implémentation en OCaml</a></li>
-<li><a href="#org19739dc">30.3. Bound-check</a></li>
-<li><a href="#orgab9e807">30.4. Disgression</a></li>
-<li><a href="#org16b664e">30.5. Conclusion</a></li>
+<li><a href="#orgf74cf5d">30.1. Implémentation C (utilisant <code>memcpy</code> et/ou <code>memmove</code>).</a></li>
+<li><a href="#org5df1800">30.2. Implémentation en OCaml</a></li>
+<li><a href="#org1b851aa">30.3. Bound-check</a></li>
+<li><a href="#orga949c7a">30.4. Disgression</a></li>
+<li><a href="#orgda074ff">30.5. Conclusion</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org8f1c6f5" class="outline-2">
-<h2 id="org8f1c6f5"><span class="section-number-2">1</span> <span class="done DONE">DONE</span> extraire rabin d'ocaml-git et en faire une librairie (duff)</h2>
+<div id="outline-container-orgad0b4c0" class="outline-2">
+<h2 id="orgad0b4c0"><span class="section-number-2">1</span> <span class="done DONE">DONE</span> extraire rabin d'ocaml-git et en faire une librairie (duff)</h2>
 <div class="outline-text-2" id="text-1">
 </div>
 </div>
-<div id="outline-container-org7c9d48c" class="outline-2">
-<h2 id="org7c9d48c"><span class="section-number-2">2</span> <span class="done DONE">DONE</span> Faire un README.md de duff</h2>
+<div id="outline-container-orgdbc76ce" class="outline-2">
+<h2 id="orgdbc76ce"><span class="section-number-2">2</span> <span class="done DONE">DONE</span> Faire un README.md de duff</h2>
 <div class="outline-text-2" id="text-2">
 </div>
 </div>
-<div id="outline-container-org119cef5" class="outline-2">
-<h2 id="org119cef5"><span class="section-number-2">3</span> <span class="done DONE">DONE</span> Faire une release de duff</h2>
+<div id="outline-container-org023d1ac" class="outline-2">
+<h2 id="org023d1ac"><span class="section-number-2">3</span> <span class="done DONE">DONE</span> Faire une release de duff</h2>
 <div class="outline-text-2" id="text-3">
 </div>
 </div>
-<div id="outline-container-org442280e" class="outline-2">
-<h2 id="org442280e"><span class="section-number-2">4</span> <span class="done DONE">DONE</span> Implémenter un fuzzer pour duff</h2>
+<div id="outline-container-org6f43cd5" class="outline-2">
+<h2 id="org6f43cd5"><span class="section-number-2">4</span> <span class="done DONE">DONE</span> Implémenter un fuzzer pour duff</h2>
 <div class="outline-text-2" id="text-4">
 </div>
 </div>
-<div id="outline-container-orge735697" class="outline-2">
-<h2 id="orge735697"><span class="section-number-2">5</span> <span class="done DONE">DONE</span> Faire un binaire de duff</h2>
+<div id="outline-container-orgc4eb44d" class="outline-2">
+<h2 id="orgc4eb44d"><span class="section-number-2">5</span> <span class="done DONE">DONE</span> Faire un binaire de duff</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 Le fuzzer est lancer sur 163.172.129.132.
@@ -326,16 +326,16 @@ Le fuzzer est lancer sur 163.172.129.132.
 </div>
 </div>
 
-<div id="outline-container-org68e7359" class="outline-2">
-<h2 id="org68e7359"><span class="section-number-2">6</span> <span class="done DONE">DONE</span> faire le README.md de radis</h2>
+<div id="outline-container-org1a9aac2" class="outline-2">
+<h2 id="org1a9aac2"><span class="section-number-2">6</span> <span class="done DONE">DONE</span> faire le README.md de radis</h2>
 <div class="outline-text-2" id="text-6">
 </div>
-<div id="outline-container-org6caacc2" class="outline-3">
-<h3 id="org6caacc2"><span class="section-number-3">6.1</span> Corriger les fautes en anglais</h3>
+<div id="outline-container-org0bbffda" class="outline-3">
+<h3 id="org0bbffda"><span class="section-number-3">6.1</span> Corriger les fautes en anglais</h3>
 </div>
 </div>
-<div id="outline-container-orgd39600c" class="outline-2">
-<h2 id="orgd39600c"><span class="section-number-2">7</span> <span class="todo TODO">TODO</span> Faire une release de radis</h2>
+<div id="outline-container-org043ec3a" class="outline-2">
+<h2 id="org043ec3a"><span class="section-number-2">7</span> <span class="todo TODO">TODO</span> Faire une release de radis</h2>
 <div class="outline-text-2" id="text-7">
 <p>
 Il s'agit de regarder surtout le licence et il semble qu'elle soit soumis à la
@@ -344,8 +344,8 @@ LGPL 2.1.
 </div>
 </div>
 
-<div id="outline-container-org63046a6" class="outline-2">
-<h2 id="org63046a6"><span class="section-number-2">8</span> <span class="done DONE">DONE</span> Implémenter la fonction <code>remove</code></h2>
+<div id="outline-container-orgcb55587" class="outline-2">
+<h2 id="orgcb55587"><span class="section-number-2">8</span> <span class="done DONE">DONE</span> Implémenter la fonction <code>remove</code></h2>
 <div class="outline-text-2" id="text-8">
 <p>
 Son implémentation est faite avec un trick sur les exceptions. Bon, il faut
@@ -364,20 +364,20 @@ C'est pas propre mais bon, il y a le <code>remove</code>.
 </div>
 </div>
 
-<div id="outline-container-org9de2c08" class="outline-2">
-<h2 id="org9de2c08"><span class="section-number-2">9</span> <span class="done DONE">DONE</span> Faire en sorte que <code>radis</code> respect <code>Map.S</code></h2>
+<div id="outline-container-orgc5e314f" class="outline-2">
+<h2 id="orgc5e314f"><span class="section-number-2">9</span> <span class="done DONE">DONE</span> Faire en sorte que <code>radis</code> respect <code>Map.S</code></h2>
 <div class="outline-text-2" id="text-9">
 </div>
 </div>
-<div id="outline-container-orgafbc27c" class="outline-2">
-<h2 id="orgafbc27c"><span class="section-number-2">10</span> <span class="todo TODO">TODO</span> Implémenter des tests sur <code>radis</code></h2>
+<div id="outline-container-orgdd438c6" class="outline-2">
+<h2 id="orgdd438c6"><span class="section-number-2">10</span> <span class="todo TODO">TODO</span> Implémenter des tests sur <code>radis</code></h2>
 </div>
-<div id="outline-container-org49e3516" class="outline-2">
-<h2 id="org49e3516"><span class="section-number-2">11</span> <span class="done DONE">DONE</span> extraire RFC1951 de decompress</h2>
+<div id="outline-container-orgf0849fb" class="outline-2">
+<h2 id="orgf0849fb"><span class="section-number-2">11</span> <span class="done DONE">DONE</span> extraire RFC1951 de decompress</h2>
 <div class="outline-text-2" id="text-11">
 </div>
-<div id="outline-container-orgc2f637f" class="outline-3">
-<h3 id="orgc2f637f"><span class="section-number-3">11.1</span> <span class="todo TODO">TODO</span> [ ] contraindre decompress d'utiliser <code>camlzip.1.07</code></h3>
+<div id="outline-container-org5ba7e08" class="outline-3">
+<h3 id="org5ba7e08"><span class="section-number-3">11.1</span> <span class="todo TODO">TODO</span> [ ] contraindre decompress d'utiliser <code>camlzip.1.07</code></h3>
 <div class="outline-text-3" id="text-11-1">
 <p>
 Une relecture de decompress m'amène à faire:
@@ -430,8 +430,8 @@ chose. Bref, il faut regarder cela plus précisement.
 </div>
 </div>
 
-<div id="outline-container-org797975e" class="outline-2">
-<h2 id="org797975e"><span class="section-number-2">12</span> <span class="done DONE">DONE</span> fixer Decompress.Inflate avec un random input</h2>
+<div id="outline-container-orgf61eb91" class="outline-2">
+<h2 id="orgf61eb91"><span class="section-number-2">12</span> <span class="done DONE">DONE</span> fixer Decompress.Inflate avec un random input</h2>
 <div class="outline-text-2" id="text-12">
 <p>
 Bon, il semble que le problème essentiel soit que Decompress n'est toujours pas
@@ -466,8 +466,8 @@ pas le cas de <code>zlib</code>, on est bien face à un bug.
 </div>
 </div>
 
-<div id="outline-container-org13f9cf2" class="outline-2">
-<h2 id="org13f9cf2"><span class="section-number-2">13</span> <span class="done DONE">DONE</span> Vérifier RFC1951 sur les derniers bytes</h2>
+<div id="outline-container-org5692ee3" class="outline-2">
+<h2 id="org5692ee3"><span class="section-number-2">13</span> <span class="done DONE">DONE</span> Vérifier RFC1951 sur les derniers bytes</h2>
 <div class="outline-text-2" id="text-13">
 <p>
 En effet, puisque RFC1951 n'est pas forcément aligné, il nous faut vérifier
@@ -477,36 +477,46 @@ retrouver dans <code>hold</code> (et signaler à l'utilisateur combien de bits s
 </div>
 </div>
 
-<div id="outline-container-org128e903" class="outline-2">
-<h2 id="org128e903"><span class="section-number-2">14</span> <span class="done DONE">DONE</span> Vérifier le <i>header</i> dans decompress</h2>
+<div id="outline-container-org0ec412c" class="outline-2">
+<h2 id="org0ec412c"><span class="section-number-2">14</span> <span class="done DONE">DONE</span> Vérifier le <i>header</i> dans decompress</h2>
 <div class="outline-text-2" id="text-14">
 </div>
 </div>
 
-<div id="outline-container-orgd1cf46f" class="outline-2">
-<h2 id="orgd1cf46f"><span class="section-number-2">15</span> Fuzzer encore</h2>
+<div id="outline-container-orga0415a4" class="outline-2">
+<h2 id="orga0415a4"><span class="section-number-2">15</span> Fuzzer encore</h2>
 <div class="outline-text-2" id="text-15">
 </div>
-<div id="outline-container-orge22914e" class="outline-3">
-<h3 id="orge22914e"><span class="section-number-3">15.1</span> Il faut attendre la <a href="https://github.com/stedolan/crowbar/pull/36">PR de Gabriel</a> pour faire ce travail.</h3>
+<div id="outline-container-orge9282f4" class="outline-3">
+<h3 id="orge9282f4"><span class="section-number-3">15.1</span> Il faut attendre la <a href="https://github.com/stedolan/crowbar/pull/36">PR de Gabriel</a> pour faire ce travail.</h3>
 </div>
 </div>
 
-<div id="outline-container-org56fd8db" class="outline-2">
-<h2 id="org56fd8db"><span class="section-number-2">16</span> <span class="todo TODO">TODO</span> Optimiser ocaml-git</h2>
+<div id="outline-container-orgf13ba09" class="outline-2">
+<h2 id="orgf13ba09"><span class="section-number-2">16</span> <span class="todo TODO">TODO</span> Optimiser ocaml-git</h2>
 <div class="outline-text-2" id="text-16">
 </div>
-<div id="outline-container-orgc1f65e0" class="outline-3">
-<h3 id="orgc1f65e0"><span class="section-number-3">16.1</span> <span class="todo TODO">TODO</span> Utiliser <code>Hashtbl</code> à la place de <code>Map</code></h3>
+<div id="outline-container-org2d464d4" class="outline-3">
+<h3 id="org2d464d4"><span class="section-number-3">16.1</span> <span class="todo TODO">TODO</span> Utiliser <code>Hashtbl</code> à la place de <code>Map</code></h3>
 </div>
-<div id="outline-container-orgabf9fcb" class="outline-3">
-<h3 id="orgabf9fcb"><span class="section-number-3">16.2</span> Revoir <code>Pack_info</code> et réutiliser son code pour l'analyze d'un flux PACK</h3>
+<div id="outline-container-org87b9b0e" class="outline-3">
+<h3 id="org87b9b0e"><span class="section-number-3">16.2</span> Revoir <code>Pack_info</code> et réutiliser son code pour l'analyze d'un flux PACK</h3>
 <div class="outline-text-3" id="text-16-2">
 <ul class="org-ul">
 <li class="off"><code>[&#xa0;]</code> factoriser et nettoyer le code</li>
 <li class="on"><code>[X]</code> renommer les fonctions disponibles en <code>first_pass</code> et <code>second_pass</code></li>
 <li class="off"><code>[&#xa0;]</code> réutiliser ces fonctions dans <code>Store</code> et <code>Mem</code></li>
 <li class="off"><code>[&#xa0;]</code> optimiser ces <i>pass</i></li>
+<li class="on"><code>[X]</code> <p>
+optimiser l'accès aux <i>meta-data</i> d'une <i>entry</i> d'un fichier PACK
+</p>
+
+<p>
+Sur ce dernier point, il me semble que obtenir la taille de l'objet était
+plus long pour un objet delta-ifié puisqu'on attendait un état au décodeur
+Hunk se qui impliquait qu'on commence (et même qu'on termine) la
+décompression de l'<i>entry</i>. Bref, ce n'est plus le cas maintenant.
+</p></li>
 </ul>
 
 <p>
@@ -647,17 +657,17 @@ dans un contexte <code>memory bounded</code> l'extraction des objets).
 </div>
 </div>
 
-<div id="outline-container-orge76c720" class="outline-2">
-<h2 id="orge76c720"><span class="section-number-2">17</span> <span class="todo TODO">TODO</span> Trouver pourquoi on avait pas trouver le bug par rapport aux \000 dans les noms dans les trees</h2>
+<div id="outline-container-org284dce8" class="outline-2">
+<h2 id="org284dce8"><span class="section-number-2">17</span> <span class="todo TODO">TODO</span> Trouver pourquoi on avait pas trouver le bug par rapport aux \000 dans les noms dans les trees</h2>
 </div>
-<div id="outline-container-orga51eb42" class="outline-2">
-<h2 id="orga51eb42"><span class="section-number-2">18</span> <span class="todo TODO">TODO</span> Extraire la partie qui sérialize une seule <i>entry</i> dans l'implémentation du PACK</h2>
+<div id="outline-container-orga65286b" class="outline-2">
+<h2 id="orga65286b"><span class="section-number-2">18</span> <span class="todo TODO">TODO</span> Extraire la partie qui sérialize une seule <i>entry</i> dans l'implémentation du PACK</h2>
 </div>
-<div id="outline-container-org4704e87" class="outline-2">
-<h2 id="org4704e87"><span class="section-number-2">19</span> <span class="todo TODO">TODO</span> Permettre d'encoder une seule <i>entry</i> pour <code>wodan</code></h2>
+<div id="outline-container-org584b3fd" class="outline-2">
+<h2 id="org584b3fd"><span class="section-number-2">19</span> <span class="todo TODO">TODO</span> Permettre d'encoder une seule <i>entry</i> pour <code>wodan</code></h2>
 </div>
-<div id="outline-container-org133d5f8" class="outline-2">
-<h2 id="org133d5f8"><span class="section-number-2">20</span> <span class="todo TODO">TODO</span> Faire le serveur</h2>
+<div id="outline-container-org7ff9ab1" class="outline-2">
+<h2 id="org7ff9ab1"><span class="section-number-2">20</span> <span class="todo TODO">TODO</span> Faire le serveur</h2>
 <div class="outline-text-2" id="text-20">
 <ul class="org-ul">
 <li class="off"><code>[&#xa0;]</code> Fuzzer l'encoder et le décoder Smart</li>
@@ -727,12 +737,12 @@ exemple.
 </div>
 </div>
 
-<div id="outline-container-orgcfb0a7e" class="outline-2">
-<h2 id="orgcfb0a7e"><span class="section-number-2">21</span> <span class="todo TODO">TODO</span> Regarder mirage-lambda et y participer</h2>
+<div id="outline-container-org4ecd6a8" class="outline-2">
+<h2 id="org4ecd6a8"><span class="section-number-2">21</span> <span class="todo TODO">TODO</span> Regarder mirage-lambda et y participer</h2>
 </div>
 
-<div id="outline-container-org07f4d92" class="outline-2">
-<h2 id="org07f4d92"><span class="section-number-2">22</span> Passer Mr. MIME à Angstrom</h2>
+<div id="outline-container-org993a965" class="outline-2">
+<h2 id="org993a965"><span class="section-number-2">22</span> Passer Mr. MIME à Angstrom</h2>
 <div class="outline-text-2" id="text-22">
 <p>
 J'ai eu une idée de GADT.
@@ -759,8 +769,8 @@ du <code>body</code> (entre <code>multipart/alternate</code> ou simple <code>mul
 </div>
 </div>
 
-<div id="outline-container-org464b8ac" class="outline-2">
-<h2 id="org464b8ac"><span class="section-number-2">23</span> Gérer l'<i>encoding</i> des e-mails (normaliser un <i>encoding</i> vers de l'UTF-8)</h2>
+<div id="outline-container-org9e5ec48" class="outline-2">
+<h2 id="org9e5ec48"><span class="section-number-2">23</span> Gérer l'<i>encoding</i> des e-mails (normaliser un <i>encoding</i> vers de l'UTF-8)</h2>
 <div class="outline-text-2" id="text-23">
 <p>
 Camomile fait déjà le <i>mapping</i> entre les <i>encodings</i> et l'unicode. Cependant,
@@ -777,8 +787,8 @@ externes. Deux erreurs qu'il ne faudrait pas reproduire.
 </p>
 </div>
 
-<div id="outline-container-org07a7bf8" class="outline-3">
-<h3 id="org07a7bf8"><span class="section-number-3">23.1</span> Faire un outil d'importation des tables de mappings entre <i>charset</i> et unicode</h3>
+<div id="outline-container-org103bf16" class="outline-3">
+<h3 id="org103bf16"><span class="section-number-3">23.1</span> Faire un outil d'importation des tables de mappings entre <i>charset</i> et unicode</h3>
 <div class="outline-text-3" id="text-23-1">
 <ul class="org-ul">
 <li class="trans"><code>[-]</code> outil d'importation des tables ISO8859
@@ -805,12 +815,12 @@ semble être plus difficile.
 </div>
 </div>
 
-<div id="outline-container-org539ed9e" class="outline-2">
-<h2 id="org539ed9e"><span class="section-number-2">24</span> <span class="todo TODO">TODO</span> Ce forcer à utiliser org-mode (2 mois de tests)</h2>
+<div id="outline-container-org622a590" class="outline-2">
+<h2 id="org622a590"><span class="section-number-2">24</span> <span class="todo TODO">TODO</span> Ce forcer à utiliser org-mode (2 mois de tests)</h2>
 </div>
 
-<div id="outline-container-orge22aba4" class="outline-2">
-<h2 id="orge22aba4"><span class="section-number-2">25</span> <span class="todo TODO">TODO</span> Avoir deux serveur uDNS (un sur intel et un sur arm) et configurer son PC sur ces serveur</h2>
+<div id="outline-container-org9c3967d" class="outline-2">
+<h2 id="org9c3967d"><span class="section-number-2">25</span> <span class="todo TODO">TODO</span> Avoir deux serveur uDNS (un sur intel et un sur arm) et configurer son PC sur ces serveur</h2>
 <div class="outline-text-2" id="text-25">
 <p>
 Ce qui est compliqué, c'est que les ressources pour utiliser udns sont
@@ -819,8 +829,8 @@ inexistante et il faut pousser hannes pour faire un tutoriel.
 </div>
 </div>
 
-<div id="outline-container-orgbe04a3d" class="outline-2">
-<h2 id="orgbe04a3d"><span class="section-number-2">26</span> Implémenter Lwt<sub>sequence</sub> avec CFML ou Why3 pour ocaml-tcpip</h2>
+<div id="outline-container-org9fcf542" class="outline-2">
+<h2 id="org9fcf542"><span class="section-number-2">26</span> Implémenter Lwt<sub>sequence</sub> avec CFML ou Why3 pour ocaml-tcpip</h2>
 <div class="outline-text-2" id="text-26">
 <p>
 Lwt<sub>sequence</sub> va devenir obsolète, cela peut donc être une bonne opportunité de
@@ -835,8 +845,8 @@ les ressources sont moins accessibles cependant.
 </div>
 </div>
 
-<div id="outline-container-org5b11e04" class="outline-2">
-<h2 id="org5b11e04"><span class="section-number-2">27</span> <span class="done DONE">DONE</span> Exporter les parsers d'Emile</h2>
+<div id="outline-container-org052b57f" class="outline-2">
+<h2 id="org052b57f"><span class="section-number-2">27</span> <span class="done DONE">DONE</span> Exporter les parsers d'Emile</h2>
 <div class="outline-text-2" id="text-27">
 <p>
 Dans mon implémentation des fichiers <i>database</i> des charset avec l'unicode, il
@@ -846,16 +856,16 @@ d'emile.
 </div>
 </div>
 
-<div id="outline-container-org9fb476e" class="outline-2">
-<h2 id="org9fb476e"><span class="section-number-2">28</span> <span class="done DONE">DONE</span> Meilleur documentation pour Emile</h2>
+<div id="outline-container-orgf006dc1" class="outline-2">
+<h2 id="orgf006dc1"><span class="section-number-2">28</span> <span class="done DONE">DONE</span> Meilleur documentation pour Emile</h2>
 <div class="outline-text-2" id="text-28">
 </div>
 </div>
-<div id="outline-container-orgdc60b4b" class="outline-2">
-<h2 id="orgdc60b4b"><span class="section-number-2">29</span> <span class="todo TODO">TODO</span> Fixer <code>quoted_string</code> (Emile)</h2>
+<div id="outline-container-orge509ac8" class="outline-2">
+<h2 id="orge509ac8"><span class="section-number-2">29</span> <span class="todo TODO">TODO</span> Fixer <code>quoted_string</code> (Emile)</h2>
 </div>
-<div id="outline-container-org2a663d6" class="outline-2">
-<h2 id="org2a663d6"><span class="section-number-2">30</span> <span class="done DONE">DONE</span> Faire une issue sur <a href="https://github.com/inhabitedtype/bigstringaf">bigstringaf</a> pour connaitre et déblayer la situation avec <code>Cstruct</code> spécifiquement</h2>
+<div id="outline-container-orgac76b1e" class="outline-2">
+<h2 id="orgac76b1e"><span class="section-number-2">30</span> <span class="done DONE">DONE</span> Faire une issue sur <a href="https://github.com/inhabitedtype/bigstringaf">bigstringaf</a> pour connaitre et déblayer la situation avec <code>Cstruct</code> spécifiquement</h2>
 <div class="outline-text-2" id="text-30">
 <p>
 Bon c'est une issue un peu délicate où il s'agit de comprendre la situation de
@@ -866,8 +876,8 @@ avoir un support pour MirageOS, et porter les différentes besoins par rapport �
 </p>
 </div>
 
-<div id="outline-container-orgb8602fd" class="outline-3">
-<h3 id="orgb8602fd"><span class="section-number-3">30.1</span> Implémentation C (utilisant <code>memcpy</code> et/ou <code>memmove</code>).</h3>
+<div id="outline-container-orgf74cf5d" class="outline-3">
+<h3 id="orgf74cf5d"><span class="section-number-3">30.1</span> Implémentation C (utilisant <code>memcpy</code> et/ou <code>memmove</code>).</h3>
 <div class="outline-text-3" id="text-30-1">
 <p>
 La situation est que <code>Bigarray</code> utilise <code>memmove</code>. <code>Cstruct</code> peut ne pas
@@ -891,8 +901,8 @@ diable se cache dans les détails.
 </div>
 </div>
 
-<div id="outline-container-org678f624" class="outline-3">
-<h3 id="org678f624"><span class="section-number-3">30.2</span> Implémentation en OCaml</h3>
+<div id="outline-container-org5df1800" class="outline-3">
+<h3 id="org5df1800"><span class="section-number-3">30.2</span> Implémentation en OCaml</h3>
 <div class="outline-text-3" id="text-30-2">
 <p>
 C'est l'option prise par <code>Decompress</code>. Bien entendu, il y a un impact sur les
@@ -918,8 +928,8 @@ entendu, ceci devrait être en rapport avec les performances.
 </div>
 </div>
 
-<div id="outline-container-org19739dc" class="outline-3">
-<h3 id="org19739dc"><span class="section-number-3">30.3</span> Bound-check</h3>
+<div id="outline-container-org1b851aa" class="outline-3">
+<h3 id="org1b851aa"><span class="section-number-3">30.3</span> Bound-check</h3>
 <div class="outline-text-3" id="text-30-3">
 <p>
 Une critique pourtant qui s'applique à <code>Cstruct</code> est le <i>bound-check</i>. De mon
@@ -936,8 +946,8 @@ réponse.
 </div>
 </div>
 
-<div id="outline-container-orgab9e807" class="outline-3">
-<h3 id="orgab9e807"><span class="section-number-3">30.4</span> Disgression</h3>
+<div id="outline-container-orga949c7a" class="outline-3">
+<h3 id="orga949c7a"><span class="section-number-3">30.4</span> Disgression</h3>
 <div class="outline-text-3" id="text-30-4">
 <p>
 Il y a bien entendu la question avec <code>js_of_ocaml</code> et <code>bucklescript</code>. Mais
@@ -947,8 +957,8 @@ reste des librairies n'en n'ont pas.
 </div>
 </div>
 
-<div id="outline-container-org16b664e" class="outline-3">
-<h3 id="org16b664e"><span class="section-number-3">30.5</span> Conclusion</h3>
+<div id="outline-container-orgda074ff" class="outline-3">
+<h3 id="orgda074ff"><span class="section-number-3">30.5</span> Conclusion</h3>
 <div class="outline-text-3" id="text-30-5">
 <p>
 Il ne s'agit pas d'être bêtement contre <code>bigstringaf</code> mais de faire un état des
@@ -979,7 +989,7 @@ Bon on peut dire que le problème est réglé avec <a href="https://github.com/i
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Calascibetta</p>
-<p class="date">Created: 2018-04-24 mar. 00:20</p>
+<p class="date">Created: 2018-04-24 mar. 16:23</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
