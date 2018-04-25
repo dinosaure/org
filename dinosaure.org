@@ -35,6 +35,23 @@ C'est pas propre mais bon, il y a le ~remove~.
 
 * DONE Faire en sorte que ~radis~ respect ~Map.S~
   CLOSED: [2018-04-22 dim. 15:46]
+* TODO Optimisation de ~radis~
+
+Sur ce plan, j'ai changé la fonction ~compare~ qui, à mon sens, fait le plus
+gros du travail. On fait d'abord une comparaison sur les tailles des chaines
+pour savoir si on doit retourner:
+- Contain (dans le cas où ~length(a) < length(b)~) et si le contenu est équivalent
+- Prefix  (dans le cas où ~length(a) > length(b)~) et si le contenu est équivalent
+
+Dans les autres cas, on est face à ~Inf~ ou ~Sup~ (dépends des caractères)
+
+Enfin, le dernier cas, le /pire/, c'est quand ~a = b~.
+
+L'impact ne semble pas si significatif et j'ai besoin de faire un autre
+/benchmark/ avec ~Core_bench~ pour avoir un meilleur outil de comparaison.
+
+Cette optimisation est disponible [[https://github.com/dinosaure/radis/pull/1][ici]].
+
 * TODO Implémenter des tests sur ~radis~
 * DONE extraire RFC1951 de decompress
   CLOSED: [2018-04-13 ven. 03:22]
@@ -118,6 +135,9 @@ retrouver dans ~hold~ (et signaler à l'utilisateur combien de bits sont libres)
    - [ ] réutiliser ces fonctions dans ~Store~ et ~Mem~
    - [ ] optimiser ces /pass/
    - [X] optimiser l'accès aux /meta-data/ d'une /entry/ d'un fichier PACK
+   - [X] refaire la première /pass/ (aggréger objets delta-ifiés et non delta-ifié)
+   - [X] refaire la deuxième /pass/ (résoudre tout les objets delta-ifiés)
+   - [ ] refaire la troisième /pass/ (génération d'un nouveau fichier PACK non-/thin/)
 
      Sur ce dernier point, il me semble que obtenir la taille de l'objet était
      plus long pour un objet delta-ifié puisqu'on attendait un état au décodeur
@@ -214,6 +234,33 @@ de la granularité du traitement des fichiers PACK. Cela semble carrément
 compliqué mais il faut aussi saisir que ce n'est pas dans cette logique que
 fonctionne ~git~ (qui reste un utilitaire de commande qui ne cherche pas à gérer
 dans un contexte ~memory bounded~ l'extraction des objets).
+
+** DONE Optimization des fichiers PACK déjà disponibles dans le dépôts
+   CLOSED: [2018-04-26 jeu. 01:49]
+
+NOTE: une petite illumination sur la gestion du fichier PACK. En effet, lorsque
+le fichier PACK est présent dans le dépôts (donc le premier /entry point/), on
+peut présupposer qu'il y a aussi le fichier IDX. Dans ce cas, lors de notre
+première /pass/, on peut résoudre tout les /path/.
+
+En effet, ce qui casse les /path/ est spécifiquement OBJ_REF_DELTA puisqu'on a
+pas calculer tout les hashes du dit fichier PACK. Cependant, le fichier IDX
+associé peut nous aider à savoir si le hash spécifié par OBJ_REF_DELTA est dans
+le fichier PACK ou non.
+
+En sachant ça, on peut mettre savoir la position absolue de la source et
+continuer à construire le /path/. En cela, en une seule /pass/, on peut calculer
+le /path/ de delta-ification de tout les objets (quand bien même ils utilise
+OBJ_REF_DELTA ou pas), savoir si le fichier PACK est /thin/ (dans le cas où un
+OBJ_REF_DELTA n'est pas référencé par le fichier IDX) ou pas et passer
+directement au /state/ ~Resolved~.
+
+Bien entendu, il faut faire cette /pass/ (et donc lire la totalité du fichier
+PACK) ce qui n'est pas forcément ce que souhaite un utilisateur dans un contexte
+/client/. Cependant, cela élude la question de la promotion des états pour un
+fichier PACK présent qui, au pire (et encore, avoir un fichier PACK /thin/ déjà
+disponible dans le dépôts n'est pas autorisé), doit passer par 2 /pass/ (la
+première et la troisième pour passer d'un PACK /thin/ à un PACK non-/thin/).
 
 * TODO Trouver pourquoi on avait pas trouver le bug par rapport aux \000 dans les noms dans les trees
 * TODO Extraire la partie qui sérialize une seule /entry/ dans l'implémentation du PACK
@@ -418,3 +465,16 @@ qui puisse convenir et si choisir ~bigstringaf~ comme librairie de base pour des
 plus gros projets (comme ~ocaml-git~) est sans risque.
 
 Bon on peut dire que le problème est réglé avec [[https://github.com/inhabitedtype/bigstringaf/pull/10][cette PR]].
+
+* TODO refaire ~callypige~ *URGENT*
+
+Le code C vient de Google et est sous licence BSD-3. On peut donc l'importer
+dans un paquet opam en gardant bien le /header/. L'idée est de faire comme
+~digestif~ est proposé une implémentation en C et en OCaml - le code OCaml
+devrait être hyper lent vu qu'on utiliser ~Int64~.
+
+Sinon, @samoht conseille de proposer une génération pseudo-automatique de
+/curve25519/ par ~coq-fiat~ et d'en faire un paquet. J'étais plutôt dans l'idée
+d'instrumentaliser ~coq-fiat~ dans un autre projet (/punto/) pour être à jour
+mais cela semble être un peu /overkill/ (sur l'installation, on dépendra de
+~coq~ et la génération semble être très coûteuse).
