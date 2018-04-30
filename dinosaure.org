@@ -128,8 +128,10 @@ retrouver dans ~hold~ (et signaler à l'utilisateur combien de bits sont libres)
 ** Il faut attendre la [[https://github.com/stedolan/crowbar/pull/36][PR de Gabriel]] pour faire ce travail.
 
 * TODO Optimiser ocaml-git
-** TODO Utiliser ~Hashtbl~ à la place de ~Map~
-** Revoir ~Pack_info~ et réutiliser son code pour l'analyze d'un flux PACK
+** DONE Utiliser ~Hashtbl~ à la place de ~Map~
+   CLOSED: [2018-04-30 lun. 22:46]
+** DONE Revoir ~Pack_info~ et réutiliser son code pour l'analyze d'un flux PACK
+   CLOSED: [2018-04-30 lun. 22:46]
    - [ ] factoriser et nettoyer le code
    - [X] renommer les fonctions disponibles en ~first_pass~ et ~second_pass~
    - [ ] réutiliser ces fonctions dans ~Store~ et ~Mem~
@@ -137,7 +139,7 @@ retrouver dans ~hold~ (et signaler à l'utilisateur combien de bits sont libres)
    - [X] optimiser l'accès aux /meta-data/ d'une /entry/ d'un fichier PACK
    - [X] refaire la première /pass/ (aggréger objets delta-ifiés et non delta-ifié)
    - [X] refaire la deuxième /pass/ (résoudre tout les objets delta-ifiés)
-   - [ ] refaire la troisième /pass/ (génération d'un nouveau fichier PACK non-/thin/)
+   - [X] refaire la troisième /pass/ (génération d'un nouveau fichier PACK non-/thin/)
 
      Sur ce dernier point, il me semble que obtenir la taille de l'objet était
      plus long pour un objet delta-ifié puisqu'on attendait un état au décodeur
@@ -261,6 +263,9 @@ PACK) ce qui n'est pas forcément ce que souhaite un utilisateur dans un context
 fichier PACK présent qui, au pire (et encore, avoir un fichier PACK /thin/ déjà
 disponible dans le dépôts n'est pas autorisé), doit passer par 2 /pass/ (la
 première et la troisième pour passer d'un PACK /thin/ à un PACK non-/thin/).
+
+
+Le code est disponibke [[https://github.com/mirage/ocaml-git/pull/292][ici]].
 
 * TODO Trouver pourquoi on avait pas trouver le bug par rapport aux \000 dans les noms dans les trees
 * TODO Extraire la partie qui sérialize une seule /entry/ dans l'implémentation du PACK
