@@ -16,7 +16,8 @@ Le fuzzer est lancer sur 163.172.129.132.
 * DONE faire le README.md de radis
   CLOSED: [2018-04-06 ven. 14:28]
 ** Corriger les fautes en anglais
-* TODO Faire une release de radis
+* DONE Faire une release de radis
+  CLOSED: [2018-05-07 lun. 16:19]
 
 Il s'agit de regarder surtout le licence et il semble qu'elle soit soumis à la
 LGPL 2.1.
@@ -35,7 +36,8 @@ C'est pas propre mais bon, il y a le ~remove~.
 
 * DONE Faire en sorte que ~radis~ respect ~Map.S~
   CLOSED: [2018-04-22 dim. 15:46]
-* TODO Optimisation de ~radis~
+* DONE Optimisation de ~radis~
+  CLOSED: [2018-05-06 dim. 15:58]
 
 Sur ce plan, j'ai changé la fonction ~compare~ qui, à mon sens, fait le plus
 gros du travail. On fait d'abord une comparaison sur les tailles des chaines
@@ -52,7 +54,20 @@ L'impact ne semble pas si significatif et j'ai besoin de faire un autre
 
 Cette optimisation est disponible [[https://github.com/dinosaure/radis/pull/1][ici]].
 
-* TODO Implémenter des tests sur ~radis~
+Je viens de faire un /benchmark/ avec ~Core_bench~ et on arrive aux mêmes
+constatations que avec ~Benchmark~. ~radis~ est plus rapide que ~Map~ ce qui est
+une bonne nouvelle mais moins rapide que ~Hashtbl~. Bref, il s'agit de faire une
+/release/ maintenant.
+
+* DONE Implémenter des tests sur ~radis~
+  CLOSED: [2018-05-06 dim. 15:58]
+
+J'ai juste implémenter un test très basique qui rajoute de manière /random/ des
+clés et qui les recherche ensuite. Simple, basique.
+
+* DONE Implémenter la fonction ~update~ dans ~radis~
+  CLOSED: [2018-05-07 lun. 14:17]
+
 * DONE extraire RFC1951 de decompress
   CLOSED: [2018-04-13 ven. 03:22]
 ** TODO [ ] contraindre decompress d'utiliser ~camlzip.1.07~
@@ -124,8 +139,10 @@ retrouver dans ~hold~ (et signaler à l'utilisateur combien de bits sont libres)
 * DONE Vérifier le /header/ dans decompress
   CLOSED: [2018-04-19 jeu. 16:44]
 
-* Fuzzer encore
-** Il faut attendre la [[https://github.com/stedolan/crowbar/pull/36][PR de Gabriel]] pour faire ce travail.
+* TODO Release de decompress et rfc1951
+* TODO Fuzzer ~encore~
+** DONE Il faut attendre la [[https://github.com/stedolan/crowbar/pull/36][PR de Gabriel]] pour faire ce travail.
+   CLOSED: [2018-05-14 lun. 12:03]
 
 * TODO Optimiser ocaml-git
 ** DONE Utiliser ~Hashtbl~ à la place de ~Map~
@@ -264,9 +281,23 @@ fichier PACK présent qui, au pire (et encore, avoir un fichier PACK /thin/ déj
 disponible dans le dépôts n'est pas autorisé), doit passer par 2 /pass/ (la
 première et la troisième pour passer d'un PACK /thin/ à un PACK non-/thin/).
 
-
 Le code est disponibke [[https://github.com/mirage/ocaml-git/pull/292][ici]].
 
+** DONE Corriger l'accès dan un fichier PACK pour connaitre la taille d'un objet
+   CLOSED: [2018-05-03 jeu. 18:15]
+
+Il me semblait que pour obtenir la taille d'un objet, il s'agissait juste de
+lire le /variable length/ et c'était bon mais ce dernier informe juste de la
+taille de l'/entry/ decompressé (et pas de l'objet). Pour un objet delta-ifié,
+il faut donc bien, au moins, décompressé le début pour obtenir la taille réelle
+de l'objet.
+
+J'ai donc /revert/ un de mes commits.
+
+** DONE Faire une documentation sur le ~Pack_engine~
+   CLOSED: [2018-05-14 lun. 12:04]
+
+** TODO Faire un test avec un PACK /thin/
 * TODO Trouver pourquoi on avait pas trouver le bug par rapport aux \000 dans les noms dans les trees
 * TODO Extraire la partie qui sérialize une seule /entry/ dans l'implémentation du PACK
 * TODO Permettre d'encoder une seule /entry/ pour ~wodan~
@@ -318,8 +349,23 @@ Bref, il faudrait s'intéresser à la question mais elle serait spécifique en
 réalité au ~Commit~, répercuter le code sur les ~Blob~ n'a pas de sens par
 exemple.
 
-* TODO Regarder mirage-lambda et y participer
+* DONE Fixer l'/issue/ de Mindy [[https://github.com/mirage/ocaml-git/issues/294][ici]] quand on /clone/
+  CLOSED: [2018-05-07 lun. 16:18]
+* DONE Intégrer ~duff~ dans ~ocaml-git~
+  CLOSED: [2018-05-07 lun. 16:55]
+* DONE Regarder mirage-lambda et y participer
+  CLOSED: [2018-05-06 dim. 02:22]
 
+* TODO Tester si mirage-lambda est idempotent
+** DONE S'agit t'il de tester ~eval(decode(encode(expr))) = eval(expr)~ ?
+   CLOSED: [2018-05-11 ven. 14:38]
+
+** DONE Fuzzer ~mirage-lambda~
+   CLOSED: [2018-05-14 lun. 12:02]
+** DONE Fixer les tests de ~mirage-lambda~
+   CLOSED: [2018-05-14 lun. 12:02]
+** DONE Rajouter un .travis.yml dans ~mirage-lambda~ avec ~autoci~
+   CLOSED: [2018-05-14 lun. 12:03]
 * Passer Mr. MIME à Angstrom
 
 J'ai eu une idée de GADT.
@@ -483,3 +529,7 @@ Sinon, @samoht conseille de proposer une génération pseudo-automatique de
 d'instrumentaliser ~coq-fiat~ dans un autre projet (/punto/) pour être à jour
 mais cela semble être un peu /overkill/ (sur l'installation, on dépendra de
 ~coq~ et la génération semble être très coûteuse).
+
+* TODO Avoir ~ocaml-tls~ sur ~async~
+
+* TODO Faire la documentation de ~digestif~
