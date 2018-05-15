@@ -533,3 +533,6 @@ mais cela semble être un peu /overkill/ (sur l'installation, on dépendra de
 * TODO Avoir ~ocaml-tls~ sur ~async~
 
 * TODO Faire la documentation de ~digestif~
+
+C'est surtout à cause du trick sur la production de 2 librairies qui fait que la
+génération d'une documentation avec ~topkg~ et ~ocamlbuild~ est impossible.
