@@ -144,15 +144,18 @@ retrouver dans ~hold~ (et signaler à l'utilisateur combien de bits sont libres)
 ** DONE Il faut attendre la [[https://github.com/stedolan/crowbar/pull/36][PR de Gabriel]] pour faire ce travail.
    CLOSED: [2018-05-14 lun. 12:03]
 
+La pull-request est disponible [[https://github.com/dinosaure/encore/pull/3][ici]]. Cependant, on a un ~Out_of_memory~ quand on
+lance ~crowbar~. Il faudrait inspecter pourquoi.
+
 * TODO Optimiser ocaml-git
 ** DONE Utiliser ~Hashtbl~ à la place de ~Map~
    CLOSED: [2018-04-30 lun. 22:46]
 ** DONE Revoir ~Pack_info~ et réutiliser son code pour l'analyze d'un flux PACK
    CLOSED: [2018-04-30 lun. 22:46]
-   - [ ] factoriser et nettoyer le code
+   - [X] factoriser et nettoyer le code
    - [X] renommer les fonctions disponibles en ~first_pass~ et ~second_pass~
    - [ ] réutiliser ces fonctions dans ~Store~ et ~Mem~
-   - [ ] optimiser ces /pass/
+   - [X] optimiser ces /pass/
    - [X] optimiser l'accès aux /meta-data/ d'une /entry/ d'un fichier PACK
    - [X] refaire la première /pass/ (aggréger objets delta-ifiés et non delta-ifié)
    - [X] refaire la deuxième /pass/ (résoudre tout les objets delta-ifiés)
@@ -342,6 +345,43 @@ Et ouais c'est la mort ...
 
 La pull-request est disponible [[https://github.com/mirage/ocaml-git/pull/298/][ici]].
 
+** TODO Regarder le bottle-neck quand on clone avec ~ocaml-git~
+
+En très gros, le /process/ qui prends le plus de temps, c'est la seocnde /pass/
+(25s). Il prendrait 93 % du temps (sans la réception) alors que la première
+/pass/ semble assez rapide (2s). Donc c'est ici qu'il faut optimisé. Ces ordres
+(en temps) sont fait avec les logs, c'est pour ça que c'est long - mais même
+sans, c'est long.
+
+Il s'agirait peut être de mettre un cache LRU (puisque c'est le cas dans Git).
+
+Bon, la compilation du /pattern-matching/ dans la fonction ~Unpack.next_object~
+contient un /when/ et ~landmarks~ me signate que c'est la fonction la plus
+longue, j'ai donc supprimé le /when/ est utilisé un simple ~if~. Selon
+~landmarks~, on passe donc de 61m cycles à 53M cyles (M pour million).
+
+La dernière barrière semble être ~decompress~ et par extension, le calcul du
+/checksum/ Adler-32 (qui était déjà le problème dans ~decompress~). Bref, il
+faut faire une librairie qui permet de switcher entre une implémentation en C et
+une implémentation en OCaml.
+
+*** TODO Faire une librairie "à la ~digestif~" qui implémente Adler-32 et CRC-32 (le nom sera ~checkseum~)
+
+*** DONE Faire un PPX qui re-écrit un type int32 selon l'architecture (produire un int natif - 64 bits - ou int32)
+    CLOSED: [2018-05-22 mar. 17:04]
+
+Bon alors PPX c'est de la merde j'ai donc fait une autre librairie qui
+implémente un entier et qui, selon l'architecture, utilise ~int~ ou ~int32~. Le
+type est bien entendu abstrait.
+
+* TODO Faire une librairie par dessus ~ocaml-git~ qui résouds les /scheme/ (ssh, http, tcp) et exécute les bons modules
+
+On pourrait ici utiliser un type ouvert pour l'étendre avec ~http~ dans
+~git-http~ et ~ssh~ dans ~git-unix~. Bref, c'est une solution mais il faut bien
+faire attention.
+
+* TODO Fixer le test avec les fichiers PACK /thin/
+
 * TODO Fixer le bug de l'atomique ~move~ et du dossier ~temp~ dans ~ocaml-git~
 * TODO Trouver pourquoi on avait pas trouver le bug par rapport aux \000 dans les noms dans les trees
 * TODO Extraire la partie qui sérialize une seule /entry/ dans l'implémentation du PACK
@@ -405,12 +445,17 @@ exemple.
 ** DONE S'agit t'il de tester ~eval(decode(encode(expr))) = eval(expr)~ ?
    CLOSED: [2018-05-11 ven. 14:38]
 
+La pull-request est disponible [[https://github.com/mirage/mirage-lambda/pull/10][ici]]. Le problème concerne surtout le fait qu'on
+soit obligé d'intégrer le /fuzzer/ pour avoir accès aux types abstraits de la
+libraries. ~ppx-import~ devrait résoudre le problème, mais je sais pas en vrai.
+
 ** DONE Fuzzer ~mirage-lambda~
    CLOSED: [2018-05-14 lun. 12:02]
 ** DONE Fixer les tests de ~mirage-lambda~
    CLOSED: [2018-05-14 lun. 12:02]
 ** DONE Rajouter un .travis.yml dans ~mirage-lambda~ avec ~autoci~
    CLOSED: [2018-05-14 lun. 12:03]
+* TODO Utiliser ~protobuf~ pour émettre et recevoir du code dans ~mirage-lambda~
 * Passer Mr. MIME à Angstrom
 
 J'ai eu une idée de GADT.
@@ -582,8 +627,14 @@ mais cela semble être un peu /overkill/ (sur l'installation, on dépendra de
 
 * TODO Avoir ~ocaml-tls~ sur ~async~
 
-* TODO Faire la documentation de ~digestif~
+* DONE Faire la documentation de ~digestif~
+  CLOSED: [2018-05-16 mer. 11:12]
 
 C'est surtout à cause du trick sur la production de 2 librairies qui fait que la
 génération d'une documentation avec ~topkg~ et ~ocamlbuild~ est impossible.
+
+La pull-request est disponible [[https://github.com/mirage/digestif/pull/27/][ici]].
+
 * TODO Passer ~radis~ en MIT pour la prochaine release
+* TODO Implémenter (voir l'e-mail de Joe) les fonctions itératives sur les /hash/ pour ~digestif~
+** TODO Et faire une release de ~digestif~
