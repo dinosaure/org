@@ -365,7 +365,8 @@ La dernière barrière semble être ~decompress~ et par extension, le calcul du
 faut faire une librairie qui permet de switcher entre une implémentation en C et
 une implémentation en OCaml.
 
-*** TODO Faire une librairie "à la ~digestif~" qui implémente Adler-32 et CRC-32 (le nom sera ~checkseum~)
+*** DONE Faire une librairie "à la ~digestif~" qui implémente Adler-32 et CRC-32 (le nom sera ~checkseum~)
+    CLOSED: [2018-05-25 ven. 13:19]
 
 *** DONE Faire un PPX qui re-écrit un type int32 selon l'architecture (produire un int natif - 64 bits - ou int32)
     CLOSED: [2018-05-22 mar. 17:04]
@@ -374,13 +375,37 @@ Bon alors PPX c'est de la merde j'ai donc fait une autre librairie qui
 implémente un entier et qui, selon l'architecture, utilise ~int~ ou ~int32~. Le
 type est bien entendu abstrait.
 
+Dans la finalité de tout ce travail, il semble qu'un système de cache soit plus
+efficace que le calcul du /checksum/ pour ce qui est d'~ocaml-git~. Ce que je
+veux dire par là, c'est que l'optimisation apporté dans ~decompress~ ne semble
+pas avoir un impact significatif dans le temps que mets ~ocaml-git~ lors de la
+seconde /pass/ (quand bien même ~landmarks~ signale que le processus passe le
+plus de temps dans la décompression).
+
+En somme, c'est en rajoutant un système de cache et en passant à un système
+d'allocation volatile pour transmettre l'/ownership/ des ~Cstruct.t~ au cache
+qu'on arrive à passer de ~20s pour cloner
+https://github.com/mirage/ocaml-git.git à ~13s - ce qui est un gain énorme ...
+
+Malheureusement, la volatilité de l'allocation pose toujours un problème dans un
+contexte serveur. L'abstraction du système d'allocation est faite (mais pas
+encore externaliser à haut niveau dans l'API) mais il s'agirait de se concentrer
+là dessus désormais plutôt qu'à des micro-optimisations comme c'est le cas avec
+~checkseum~ (en tout cas du point de vu d'~ocaml-git~).
+
+Le problème étant posé, on peut passer à 2 autres problèmes:
+
+* TODO Externaliser le système d'allocation d'~ocaml-git~ avec des /helpers/ (Client et Serveur) pour l'utilisateur final
+* TODO Trouver une instrumentalisation correct pour /benchmark/ ~ocaml-git~
+
 * TODO Faire une librairie par dessus ~ocaml-git~ qui résouds les /scheme/ (ssh, http, tcp) et exécute les bons modules
 
 On pourrait ici utiliser un type ouvert pour l'étendre avec ~http~ dans
 ~git-http~ et ~ssh~ dans ~git-unix~. Bref, c'est une solution mais il faut bien
 faire attention.
 
-* TODO Fixer le test avec les fichiers PACK /thin/
+* DONE Fixer le test avec les fichiers PACK /thin/
+  CLOSED: [2018-05-29 mar. 14:11]
 
 * TODO Fixer le bug de l'atomique ~move~ et du dossier ~temp~ dans ~ocaml-git~
 * TODO Trouver pourquoi on avait pas trouver le bug par rapport aux \000 dans les noms dans les trees
@@ -449,6 +474,9 @@ La pull-request est disponible [[https://github.com/mirage/mirage-lambda/pull/10
 soit obligé d'intégrer le /fuzzer/ pour avoir accès aux types abstraits de la
 libraries. ~ppx-import~ devrait résoudre le problème, mais je sais pas en vrai.
 
+Le fuzzer vient de se lancer mais je soupçonne que la génération d'un code
+/random/ soit trop longue.
+
 ** DONE Fuzzer ~mirage-lambda~
    CLOSED: [2018-05-14 lun. 12:02]
 ** DONE Fixer les tests de ~mirage-lambda~
@@ -493,6 +521,7 @@ externes. Deux erreurs qu'il ne faudrait pas reproduire.
      - [X] Extraire les informations des tables
      - [ ] Extraire les auteurs
    - [ ] outil d'importation des tables VENDORS
+   - [ ] tester l'outil d'imporation pour les tables ISO8859
 
 Il semble que ISO8859 partage le même format pour le /mapping/ (format A). Il
 semnle aussi que les VENDORS, eux, ne partagent pas spécifiquement le même
@@ -502,6 +531,11 @@ représentation.
 On peut faire un lexer/parser qui puisse accepter les différents formats.
 Cependant, extraire les informations comme le nom, la date ou encore les auteurs
 semble être plus difficile.
+
+Bon, on a enfin un outil d'importation ~uuuui~ qui génère un fichier ML selon la
+table contenant le dictionnaire entre le /codepoint/ vers sa traduction en
+unicode. Il s'agit d'implémenter un test maintenant et la première étape sera
+fini.
 
 * TODO Ce forcer à utiliser org-mode (2 mois de tests)
 
@@ -523,6 +557,12 @@ les ressources sont moins accessibles cependant.
 Apres discussion, Armael veut bien se lancer dans le projet. Le problème semble
 être une notion d'/ownership/ dans les nodes pour éviter de les utiliser si on
 les a supprimé (data-race condition).
+
+Le projet est disponible sur le Gitlab de l'INRIA:
+
+https://gitlab.inria.fr:agueneau/lwt_sequence.git
+
+*** Finir le projet avec Armael
 
 * DONE Exporter les parsers d'Emile
   CLOSED: [2018-04-20 ven. 15:06]
