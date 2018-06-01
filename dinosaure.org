@@ -398,6 +398,54 @@ Le problème étant posé, on peut passer à 2 autres problèmes:
 * TODO Externaliser le système d'allocation d'~ocaml-git~ avec des /helpers/ (Client et Serveur) pour l'utilisateur final
 * TODO Trouver une instrumentalisation correct pour /benchmark/ ~ocaml-git~
 
+Arpès discussion avec Thomas et des points sombres sur comment fait ~git~ sur la
+seconde /pass/, j'ai réussi à comprendre comment on pouvait optimiser
+~ocaml-git~.
+
+En vérité, ~git~ résoud les objets par le bas et non pas par le haut comme c'est
+le cas avec ~ocaml-git~ - ceci dit, cette manière de faire est exclusive à la
+seconde /pass/. En somme, la solution est de partir des objets bases (ceux qui
+ne sont pas delta-ifiés) et d'allouer un thread pour chacunes de ces bases afin
+de résoudre (par un parcours descendant) les enfants de ces bases.
+
+On va tout simplement itérer de manière bloquante avec un /lock/ dans les objets
+du fichier PACK (itérer dans une liste qui contient indistinctement les objets
+delta-ifiés et non delta-ifiés). Dès qu'on trouve un fichier non delta-ifié
+(donc une base), on fait en sorte que le thread s'occupe à résoudre tout les
+objets enfants de cet objet base.
+
+Pendant cette résolution, il va annoter les objets résolus comme n'étant plus
+delta-ifié:
+- je ne suis pas certain de ce constat parce que ça voudrais dire qu'un autre
+  thread pourrait prendre la relève et considéré ces derniers objets résolus
+  comme des bases (ce qui n'est pas le cas) et dupliquer le process.
+
+Ensuite, le thread N+1 va tout simplement essayer de trouver la prochaine base
+et faire de même que le premier.
+
+En somme, si on visualize tout cela, chaque thread s'occupe d'un /path/ de
+delta-ification par rapport à une base. Ensuite, comme une base peut être la
+source de plusieurs objets, le thread fait un parcours descendant sur l'arbre de
+delta-ification (ayant pour racine la base) et reconstruit les dit-objets.
+
+~git~ semble s'en sortir assez spécialement sur cette histoire de parcours
+descendant en utilisant ~pthread_setspecific~ et ~pthread_getspecific~ pour
+changer itérativement la base - je pense pas utiliser cela pour ~ocaml-git~.
+
+Enfin un axiome qui peut être important, c'est concernant la taille des objets.
+En effet, selon le moteur de delta-ification, la source devrait être toujours
+plus grande que la cible ce qui veut dire qu'il nous suffirait d'allouer 2 fois
+la taille de la base pour ensuite reconstruire récursivement tout les objets
+sans aucune autre allocation (même pas sur les hunks).
+
+En effet, grâce à cette /assumption/, lors de la reconstruction de l'objet, il
+s'agira de /loader/ la base dans la première zone, de déserializer la cible et
+de reconstruire cette cible selon les hunks et la source déjà disponible. Pour
+l'enfant de l'enfant, il s'agira de /flipper/ les zones et ceci sans aucune
+allocation en plus.
+
+Bref, du gros travail en perspective.
+
 * TODO Faire une librairie par dessus ~ocaml-git~ qui résouds les /scheme/ (ssh, http, tcp) et exécute les bons modules
 
 On pourrait ici utiliser un type ouvert pour l'étendre avec ~http~ dans
@@ -475,7 +523,8 @@ soit obligé d'intégrer le /fuzzer/ pour avoir accès aux types abstraits de la
 libraries. ~ppx-import~ devrait résoudre le problème, mais je sais pas en vrai.
 
 Le fuzzer vient de se lancer mais je soupçonne que la génération d'un code
-/random/ soit trop longue.
+/random/ soit trop longue. J'ai pingué Stephen qui souhaite faire la même chose
+mais sur OCaml - ~mirage-lambda~ peut être un bon exemple pour lui.
 
 ** DONE Fuzzer ~mirage-lambda~
    CLOSED: [2018-05-14 lun. 12:02]
@@ -676,5 +725,8 @@ génération d'une documentation avec ~topkg~ et ~ocamlbuild~ est impossible.
 La pull-request est disponible [[https://github.com/mirage/digestif/pull/27/][ici]].
 
 * TODO Passer ~radis~ en MIT pour la prochaine release
-* TODO Implémenter (voir l'e-mail de Joe) les fonctions itératives sur les /hash/ pour ~digestif~
+* DONE Implémenter (voir l'e-mail de Joe) les fonctions itératives sur les /hash/ pour ~digestif~
+  CLOSED: [2018-05-30 mer. 13:41]
 ** TODO Et faire une release de ~digestif~
+* DONE Faire un /abstract/ sur les RFCs pour le ML Workshop
+  CLOSED: [2018-06-01 ven. 13:06]
